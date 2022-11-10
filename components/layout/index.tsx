@@ -1,3 +1,4 @@
+import React from "react"
 import styles from "./layout.module.css"
 import { Button, Container, Flex } from '@chakra-ui/react'
 
