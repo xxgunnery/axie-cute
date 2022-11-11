@@ -4,7 +4,6 @@ import GraphQL from '../components/app/GraphQL'
 
 export default function Home() {
 
-
     return (
         <Layout>
             <GraphQL />

@@ -1,5 +1,5 @@
 import axios from "axios"
-
+import { AxieFormData } from "../../components/app/GraphQL"
 
 const axieSchema = `
 query GetAxieBriefList($auctionType: AuctionType, $criteria: AxieSearchCriteria, $owner: String) {
@@ -27,20 +27,36 @@ fragment AxieBrief on Axie {
 }
 `
 
-async function fetchAllAxies(address: string) {
+interface Criteria {
+    classes: string[]
+    bodyShapes: string[]
+}
+
+export async function fetchAllAxies(formData: AxieFormData) {
+    const criteria: Criteria = {
+        classes: [],
+        bodyShapes: []
+    }
+    if (formData.class !== '') {
+        criteria.classes.push(formData.class)
+    }
+    if (formData.body !== '') {
+        criteria.bodyShapes.push(formData.body)
+    }
     const payload = JSON.stringify({
         operation: "GetAxieBriefList",
         query: axieSchema,
         variables: {
-            owner: address,
+            criteria: criteria,
+            sort: "IdAsc"
         },
     })
     try {
-        const res = await axios.post("api/utils/graphQL", {
+        const { data } = await axios.post("api/graphql/graphql", {
             payload: payload,
         })
-        console.log("res.data", res.data)
-        return res.data
+        //console.log("res.data", res.data)
+        return data
     } catch (err) {
         throw err
     }
@@ -75,13 +91,13 @@ function PartArrayMerger(Array: any[]) {
     return ItemDataArray
 }
 
-/** Run the getAxieBriefList GraphQL operation in order to get a list of the user's axies given by address */
-export async function getAxieBriefList(address: string): Promise<number | any[]> {
-    //address = "0xc45e86d1c3d4192ce2f0fb190de8dfac6f007be3"
-    var data = await fetchAllAxies(address)
-    var allAxiesArray = await PartArrayMerger([data])
-    return allAxiesArray
-}
+// /** Run the getAxieBriefList GraphQL operation in order to get a list of the user's axies given by address */
+// export async function getAxieBriefList(address: string): Promise<number | any[]> {
+//     //address = "0xc45e86d1c3d4192ce2f0fb190de8dfac6f007be3"
+//     var data = await fetchAllAxies(address)
+//     var allAxiesArray = await PartArrayMerger([data])
+//     return allAxiesArray
+// }
 
 /*
 //OLD GRAPHQL QUERY
