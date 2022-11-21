@@ -48,6 +48,7 @@ export async function fetchAllAxies(formData: AxieFormData) {
         query: axieSchema,
         variables: {
             criteria: criteria,
+            owner: "0x239dd0031d1e39ca814593ab03518f3fe967aa6c",
             sort: "IdAsc"
         },
     })

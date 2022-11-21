@@ -11,9 +11,34 @@ datasource db {
 }
 
 model User {
-    id       Int    @id @default(autoincrement())
-    address String @unique
+    id        Int      @id @default(autoincrement())
+    address   String   @unique
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 }
 
+model Axie {
+    id              Int      @id @default(autoincrement())
+    axieId          String      @unique
+    owner           String
+    bodyShape       String
+    class           String
+    name            String
+    parts           Json
+    createdAt       DateTime @default(now())
+    updatedAt       DateTime @updatedAt
+    cuteRatingTotal Int      @default(0)
+    coolRatingTotal Int      @default(0)
+    impressions     Int      @default(0)
+    axieScore       Int      @default(0)
+}
+
+model Vote {
+    id         Int      @id @default(autoincrement())
+    axieId     String
+    voter      String
+    createdAt  DateTime @default(now())
+    updatedAt  DateTime @updatedAt
+    cuteRating Int
+    coolRating Int
+}

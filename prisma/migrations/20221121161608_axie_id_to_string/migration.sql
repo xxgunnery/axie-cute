@@ -1,0 +1,5 @@
+-- AlterTable
+ALTER TABLE "Axie" ALTER COLUMN "axieId" SET DATA TYPE TEXT;
+
+-- AlterTable
+ALTER TABLE "Vote" ALTER COLUMN "axieId" SET DATA TYPE TEXT;
