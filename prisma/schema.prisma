@@ -19,7 +19,7 @@ model User {
 
 model Axie {
     id              Int      @id @default(autoincrement())
-    axieId          String      @unique
+    axieId          String   @unique
     owner           String
     bodyShape       String
     class           String
@@ -27,10 +27,10 @@ model Axie {
     parts           Json
     createdAt       DateTime @default(now())
     updatedAt       DateTime @updatedAt
-    cuteRatingTotal Int      @default(0)
-    coolRatingTotal Int      @default(0)
+    cuteRatingTotal Float    @default(0)
+    coolRatingTotal Float    @default(0)
     impressions     Int      @default(0)
-    axieScore       Int      @default(0)
+    axieScore       Float    @default(0)
 }
 
 model Vote {
@@ -39,6 +39,6 @@ model Vote {
     voter      String
     createdAt  DateTime @default(now())
     updatedAt  DateTime @updatedAt
-    cuteRating Int
-    coolRating Int
+    cuteRating Float
+    coolRating Float
 }

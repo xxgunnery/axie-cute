@@ -5,9 +5,25 @@ import prisma from "../../scripts/prisma"
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     try {
-        const axies = await prisma.axie.findMany()
-        if (axies) {
-            res.status(200).json(axies)
+        const axiesList = await prisma.axie.findMany()
+        if (axiesList) {
+            const axiesCopy = [...axiesList]
+            const axieFeed = []
+            for(let x = 0; x < 5; x++) {
+                const randomNumber = Math.random()
+                if(randomNumber < 0.2) {
+                    const index = Math.floor(Math.random() * axiesCopy.length)
+                    const randomAxie = axiesCopy[index]
+                    axiesCopy.splice(index, 1)
+                    axieFeed.push(randomAxie)
+                } else {
+                    const index = Math.floor(Math.random() * axiesCopy.length)
+                    const randomAxie = axiesCopy[index]
+                    axiesCopy.splice(index, 1)
+                    axieFeed.push(randomAxie)
+                }
+            }
+            res.status(200).json(axieFeed)
         }
     } catch (error) {
         if (error instanceof Prisma.PrismaClientKnownRequestError) {
