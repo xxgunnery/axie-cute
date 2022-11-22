@@ -1,12 +1,12 @@
 import React from 'react'
 import Layout from '../components/layout'
-import GraphQL from '../components/app/GraphQL'
+import AxieFeed from '../components/app/AxieFeed'
 
 export default function Home() {
 
     return (
         <Layout>
-            <GraphQL />
+            <AxieFeed />
         </Layout>
     )
 }

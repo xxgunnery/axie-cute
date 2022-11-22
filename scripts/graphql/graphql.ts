@@ -1,9 +1,9 @@
 import axios from "axios"
-import { AxieFormData } from "../../components/app/GraphQL"
+import { AxieFormData } from "../../components/app/AxieFeed"
 
 const axieSchema = `
 query GetAxieBriefList($auctionType: AuctionType, $criteria: AxieSearchCriteria, $owner: String) {
-  part1: axies(auctionType: $auctionType, from: 0, size: 20, sort: PriceAsc, criteria: $criteria, owner: $owner) {
+  part1: axies(auctionType: $auctionType, from: 0, size: 80, sort: PriceAsc, criteria: $criteria, owner: $owner) {
     results {
       ...AxieBrief
     }

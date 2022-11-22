@@ -1,18 +1,27 @@
 import React from 'react'
 import { Box, Button, Flex, Input, Menu, MenuButton, MenuItem, MenuList, VStack } from '@chakra-ui/react'
+import { AxieFormData } from '../AxieFeed'
 
 interface MenuProps {
     menuList: string[]
     menuName: string
-    changeFormData: (target: HTMLButtonElement) => void
+    setFormData: React.Dispatch<React.SetStateAction<AxieFormData>>
     formData: { class: string, body: string }
 }
 
-export default function AxieMenuSelection({ menuList, menuName, formData, changeFormData }: MenuProps) {
+export default function AxieMenuSelection({ menuList, menuName, formData, setFormData }: MenuProps) {
 
     interface FormData {
         class: string
         body: string
+    }
+
+    function changeFormData(target: HTMLButtonElement) {
+        if (target.innerText === "None") {
+            setFormData((prev: any) => ({ ...prev, [target.value]: '' }))
+        } else {
+            setFormData((prev: any) => ({ ...prev, [target.value]: target.innerText }))
+        }
     }
 
     return (

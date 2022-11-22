@@ -8,12 +8,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         if (req.body) {
             const axieRating = req.body
 
-            // console.log("axieRating", axieRating)
-            // const updateAxie = {axieRating}
-
             console.log(axieRating.rating)
-            
-            const updateAxie = await prisma.axie.update({ 
+
+            const updateAxie = await prisma.axie.update({
                 data: {
                     cuteRatingTotal: {
                         increment: parseFloat(axieRating.rating.cute)
@@ -22,9 +19,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                         increment: parseFloat(axieRating.rating.cool)
                     }
                 },
-                where: { 
+                where: {
                     axieId: axieRating.axieId
-                }, 
+                },
             })
 
             if (updateAxie) {
