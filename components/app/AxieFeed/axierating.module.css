@@ -1,0 +1,104 @@
+.axie {
+    animation-duration: 4s;
+    animation-iteration-count: infinite;
+    animation-name: axieDance;
+    animation-timing-function: ease-in;
+}
+
+@keyframes axieDance {
+    0% {
+        margin-bottom: 0px;
+        transform: rotate(5deg);
+    }
+
+    8% {
+        margin-bottom: 6px;
+    }
+
+    15% {
+        margin-bottom: 0px;
+        transform: rotate(-5deg);
+    }
+
+    25% {
+        margin-bottom: 6px;
+    }
+
+    30% {
+        margin-bottom: 0px;
+        transform: rotate(5deg);
+    }
+
+    38% {
+        margin-bottom: 6px;
+    }
+
+    45% {
+        margin-bottom: 0px;
+        transform: rotate(-5deg);
+    }
+
+    52% {
+        margin-bottom: 6px;
+    }
+
+    60% {
+        margin-bottom: 0px;
+        transform: rotate(5deg);
+    }
+
+    70% {
+        margin-bottom: 6px;
+    }
+
+    80% {
+        margin-bottom: 0px;
+        transform: rotate(-5deg);
+    }
+
+    90% {
+        margin-bottom: 6px;
+    }
+
+    100% {
+        margin-bottom: 0px;
+        transform: rotate(5deg);
+    }
+}
+
+.verticalText {
+    writing-mode: vertical-rl;
+}
+
+.flash {
+    animation-duration: 2.5s;
+    animation-iteration-count: infinite;
+    animation-name: flash;
+    animation-timing-function: ease-in;
+}
+
+@keyframes flash {
+    0% {
+        color: hsl(40, 0%, 5%)
+    }
+
+    40% {
+        color: hsl(50, 80%, 45%)
+    }
+
+    60% {
+        color: hsl(40, 0%, 5%)
+    }
+
+    100% {
+        color: hsl(40, 0%, 5%)
+    }
+}
+
+.button {
+    -webkit-tap-highlight-color: transparent;
+}
+
+.changeBorder {
+    border-image: conic-gradient(from var(--angle),red,yellow,lime,aqua,blue,magenta,red) 1;
+}

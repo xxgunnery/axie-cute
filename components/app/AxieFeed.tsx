@@ -1,14 +1,14 @@
 import React from 'react'
-import { Box, Button, Flex, GridItem, Image, Input, Menu, MenuButton, MenuItem, MenuList, SimpleGrid, VStack } from '@chakra-ui/react'
+import { Box, Flex, Image, VStack } from '@chakra-ui/react'
 import { AXIE_BODY_LIST, AXIE_CLASS_LIST } from '../../scripts/app-data/data'
 import AxieMenuSelection from './AxieFeed/AxieMenuSelection'
 //import { fetchAllAxies } from '../../scripts/graphql/graphql'
 import { getV3AxieImage } from '../../scripts/utils/utils'
 import { useQuery } from '@tanstack/react-query'
-import { sampleAxies } from '../../scripts/app-data/sampleAxies'
 import axios from 'axios'
-import { fetchAllAxies } from '../../scripts/graphql/graphql'
-import AxieRating from './AxieFeed/AxieRating'
+import AxieRating from './AxieFeed/AxieRatingUI'
+import styles from './AxieFeed/axierating.module.css'
+import Waiting from '../common-components/Waiting'
 
 export interface AxieFormData {
     class: string
@@ -44,7 +44,7 @@ export default function AxieFeed() {
     // const myAxieQuery = useQuery(['myAxies'], () => fetchAllAxies(formData))
 
     if (axieQuery.isLoading) {
-        return <Box>Loading...</Box>
+        return <Waiting width="120px" />
     } else if (axieQuery.isError) {
         return <Box>Error</Box>
     }
@@ -52,13 +52,10 @@ export default function AxieFeed() {
     const axies = axieQuery.data.data
 
     return (
-        <VStack>
+        <VStack m="0px!important">
             <VStack
-                bg="gray.800"
-                w={"100%"}
-                minH="500px"
+                w="100%"
                 justifyContent="center"
-                p="10px"
             >
                 <Flex
                     columnGap="10px"
@@ -88,16 +85,15 @@ export default function AxieFeed() {
                             !axieQuery.isFetching ?
                                 < Image
                                     alt="Axie"
+                                    className={styles.axie}
                                     src={getV3AxieImage(axies[axieNum].axieId)}
-                                    minW="400px"
-                                    mt="40px"
+                                    minW="300px"
+                                    mt={axies[axieNum].bodyShape === "BigYak" ? "60px" : "40px"}
                                     ml={axies[axieNum].bodyShape === "BigYak" ? "35px" : "15px"}
                                     onLoad={() => !imagesLoaded && setImagesLoaded(true)}
                                 />
                                 :
-                                <Box>
-                                    Loading...
-                                </Box>
+                                <Waiting width="120px" />
                         }
                     </VStack>
                     <AxieRating

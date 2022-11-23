@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box, Button, Flex, Input, Menu, MenuButton, MenuItem, MenuList, VStack } from '@chakra-ui/react'
+import { Box, Button, Menu, MenuButton, MenuItem, MenuList, VStack } from '@chakra-ui/react'
 import { AxieFormData } from '../AxieFeed'
 
 interface MenuProps {
