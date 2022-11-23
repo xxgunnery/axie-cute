@@ -70,6 +70,7 @@ export default function AxieRatingUI({ axieNum, setAxieNum, axieQuery }: any) {
                         >
                             MORE COOL
                             <Image
+                                alt="Left Hand Axis Arrow"
                                 transform="rotate(180deg)"
                                 h="270px"
                                 src="/images/arrow-up.png"
@@ -97,7 +98,7 @@ export default function AxieRatingUI({ axieNum, setAxieNum, axieQuery }: any) {
                     mt="5px"
                 >
                     MORE CUTE
-                    <Image src="/images/arrow-right.png" w="270px" />
+                    <Image src="/images/arrow-right.png" w="270px" alt="Bottom Axis Arrow"/>
                 </Flex>
             </VStack>
             <VStack mt="10px!important">

@@ -26,7 +26,7 @@ export default function Waiting(props: any) {
                 display="flex"
                 borderRadius={props.variant === "filter" ? "50%" : "15px"}
             >
-                <Image className={styles.loadingScreen} w={width} src="/images/puff-loading.png" />
+                <Image className={styles.loadingScreen} w={width} src="/images/puff-loading.png" alt="Axie Puff Loading" />
             </Box>
         </Flex>
     )
