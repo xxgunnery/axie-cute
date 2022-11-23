@@ -102,3 +102,7 @@
 .changeBorder {
     border-image: conic-gradient(from var(--angle),red,yellow,lime,aqua,blue,magenta,red) 1;
 }
+
+.axieRatingGrid {
+    touch-action: none;
+}

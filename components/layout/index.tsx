@@ -1,6 +1,7 @@
 import React from "react"
 import styles from "./layout.module.css"
 import { Button, calc, Container, Flex, useColorMode, VStack } from '@chakra-ui/react'
+import Navbar from "./Navbar";
 
 export default function Layout({ children }: any) {
 
@@ -11,9 +12,9 @@ export default function Layout({ children }: any) {
         <VStack
             height={"100vh"}
             p="0px!important"
-            justifyContent="space-between"
             mt="0px!important"
         >
+            <Navbar />
             <Container maxWidth="1350px" p="0px!important">
                 {children}
             </Container>

@@ -1,13 +1,13 @@
 import React from 'react'
 import { Box, Flex, Image, VStack } from '@chakra-ui/react'
 import { AXIE_BODY_LIST, AXIE_CLASS_LIST } from '../../scripts/app-data/data'
-import AxieMenuSelection from './AxieFeed/AxieMenuSelection'
+import AxieMenuSelection from './App/AxieMenuSelection'
 //import { fetchAllAxies } from '../../scripts/graphql/graphql'
 import { getV3AxieImage } from '../../scripts/utils/utils'
 import { useQuery } from '@tanstack/react-query'
 import axios from 'axios'
-import AxieRating from './AxieFeed/AxieRatingUI'
-import styles from './AxieFeed/axierating.module.css'
+import AxieRating from './App/AxieRatingUI'
+import styles from './App/axierating.module.css'
 import Waiting from '../common-components/Waiting'
 
 export interface AxieFormData {
@@ -15,7 +15,7 @@ export interface AxieFormData {
     body: string
 }
 
-export default function AxieFeed() {
+export default function App() {
 
     const [formData, setFormData] = React.useState<AxieFormData>({ class: '', body: '' })
     const [imagesLoaded, setImagesLoaded] = React.useState<boolean>(true)

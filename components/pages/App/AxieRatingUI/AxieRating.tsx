@@ -1,6 +1,7 @@
 import React from 'react'
 import { Box, Flex, Image, VStack } from '@chakra-ui/react'
 import { getV3AxieImage } from '../../../../scripts/utils/utils'
+import styles from '../axierating.module.css'
 
 export default function AxieRating({
     axieNum,
@@ -126,6 +127,7 @@ export default function AxieRating({
         <VStack
             w="350px"
             h="350px"
+            className={styles.axieRatingGrid}
             mt="0px!important"
             justifyContent="center"
             border="1px solid"
@@ -149,6 +151,7 @@ export default function AxieRating({
                 }
             }}
             onTouchMove={(e) => {
+                e.preventDefault()
                 if (isDragging) {
                     const x = e.touches[0].clientX - origin.x
                     const y = e.touches[0].clientY - origin.y
@@ -163,8 +166,8 @@ export default function AxieRating({
             <Box
                 id="ratingDropper"
                 borderRadius="50%"
-                w="150px"
-                h="150px"
+                w="200px"
+                h="200px"
                 position="absolute"
                 zIndex="500!important"
                 pointerEvents="none"
@@ -175,9 +178,9 @@ export default function AxieRating({
                     w="100%"
                     userSelect="none"
                 >
-                    <Flex columnGap="5px" userSelect="none">
+                    <Flex columnGap="5px" userSelect="none" mb="10px">
                         <VStack bg={`hsla(0,${axieRating.cute * 10 + 20}%, 60%, ${axieRating.cute / 10 + 0.6})`} borderRadius="5px" p="2px">
-                            <Box mt="0px!important" fontSize="12px">
+                            <Box mt="0px!important" fontSize="15px">
                                 Cuteness
                             </Box>
                             <Box mt="0px!important" fontWeight="800" fontSize="15px">
@@ -185,7 +188,7 @@ export default function AxieRating({
                             </Box>
                         </VStack>
                         <VStack bg={`hsla(209, ${axieRating.cool * 8 + 20}%, 60%, ${axieRating.cool / 10 + 0.6})`} borderRadius="5px" p="2px">
-                            <Box mt="0px!important" fontSize="12px">
+                            <Box mt="0px!important" fontSize="15px">
                                 Coolness
                             </Box>
                             <Box mt="0px!important" fontWeight="800" fontSize="15px">
