@@ -9,6 +9,7 @@ import axios from 'axios'
 import AxieRating from './App/AxieRatingUI'
 import styles from './App/axierating.module.css'
 import Waiting from '../common-components/Waiting'
+import { fetchAllAxies } from '../../scripts/graphql/graphql'
 
 export interface AxieFormData {
     class: string
@@ -21,28 +22,42 @@ export default function App() {
     const [imagesLoaded, setImagesLoaded] = React.useState<boolean>(true)
     const [axieNum, setAxieNum] = React.useState<number>(0)
 
+    async function storeAxies(sampleAxies: any) {
+        const storage = await axios.post("api/storeAxies", { axies: sampleAxies })
+        console.log("UNIQUE AXIES SUCCESSFULLY STORED", storage.data)
+    }
+
     async function getFeedAxies() {
         const data = await axios.get("api/getFeedAxies")
         return data
     }
+
+    // GET USER'S AXIES FROM GRAPHQL
+    const myAxieQuery = useQuery(['myAxies'], () => fetchAllAxies(formData), {
+        refetchOnWindowFocus: false,
+        refetchOnMount: false,
+        refetchOnReconnect: false,
+    })
+    
+    let userAxies: any = false
+    if (!myAxieQuery.isLoading && !myAxieQuery.isError) {
+        userAxies = myAxieQuery.data.data.part1.results
+    }
+
+    const storeAxiesQuery = useQuery(['axieStorage'], () => storeAxies(userAxies), {
+        refetchOnWindowFocus: false,
+        refetchOnMount: false,
+        refetchOnReconnect: false,
+        enabled: !!userAxies
+    })
 
     // GET PROFILE FEED
     const axieQuery = useQuery(['axies'], () => getFeedAxies(), {
         refetchOnWindowFocus: false,
         refetchOnMount: false,
         refetchOnReconnect: false,
+        enabled: !storeAxiesQuery.isLoading
     })
-
-    // STORE USER'S AXIES
-    // async function storeAxies(sampleAxies: any) {
-    //     const storage = await axios.post("api/storeAxies", { axies: sampleAxies })
-    //     console.log(storage)
-    // }
-    // const storeAxiesQuery = useQuery(['axieStorage'], () => storeAxies(sampleAxies))
-
-    // GET USER'S AXIES FROM GRAPHQL
-    // const myAxieQuery = useQuery(['myAxies'], () => fetchAllAxies(formData))
-
     if (axieQuery.isLoading) {
         return <Waiting width="120px" />
     } else if (axieQuery.isError) {

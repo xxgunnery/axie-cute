@@ -6,7 +6,6 @@ import prisma from "../../scripts/prisma"
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     try {
         if (req.body) {
-            await prisma.axie.deleteMany()
             const rawAxieData = req.body.axies
             const prismaAxies = []
             for (const axie of rawAxieData) {
@@ -19,10 +18,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                     parts: JSON.stringify(axie.parts)
                 })
             }
-            const createMany = await prisma.axie.createMany({ data: prismaAxies })
+            const createMany = await prisma.axie.createMany({ data: prismaAxies, skipDuplicates: true })
             console.log("createMany", createMany)
             if (prismaAxies) {
-                res.status(200).json(prismaAxies)
+                res.status(200).json(createMany)
             } else {
                 res.status(404).json({ error: "User not found" })
             }

@@ -1,50 +1,23 @@
 import React from "react"
-import styles from "./layout.module.css"
-import { Button, calc, Container, Flex, useColorMode, VStack } from '@chakra-ui/react'
-import Navbar from "./Navbar";
+import { Container, Flex, VStack } from '@chakra-ui/react'
+import Navbar from "./Navbar"
+import windowWidth from "../../scripts/hooks/window";
 
 export default function Layout({ children }: any) {
-
-    const { toggleColorMode } = useColorMode();
-    const [darkTheme, toggleDarkTheme] = React.useState(false)
 
     return (
         <VStack
             height={"100vh"}
+            width={"98vw"}
             p="0px!important"
             mt="0px!important"
         >
-            <Navbar />
-            <Container maxWidth="1350px" p="0px!important">
-                {children}
-            </Container>
+            <Flex direction="row" w="100%" h="100vh">
+                <Navbar isDesktopNav={windowWidth(1400)} />
+                <Container p="0px!important">
+                    {children}
+                </Container>
+            </Flex>
         </VStack>
     )
 }
-
-/*
-    <Flex
-        w="100%"
-        alignItems="center"
-        justifyContent="center"
-        bg="rgba(0,0,0,0.2)"
-        p="5px"
-    >
-        
-        <Flex
-            maxW="1350px"
-            w="100%"
-        >
-            <Button
-                variant="primary"
-                bg="blue.500"
-                onClick={() => {
-                    toggleColorMode()
-                    toggleDarkTheme(!darkTheme)
-                }}
-            >
-                {!darkTheme ? "☀️" : "🌙"}
-            </Button>
-        </Flex>
-    </Flex>
-*/

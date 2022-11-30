@@ -8,26 +8,49 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         if (req.body) {
             const axieRating = req.body
 
-            console.log(axieRating.rating)
-
-            const updateAxie = await prisma.axie.update({
-                data: {
-                    cuteRatingTotal: {
-                        increment: parseFloat(axieRating.rating.cute)
-                    },
-                    coolRatingTotal: {
-                        increment: parseFloat(axieRating.rating.cool)
-                    }
-                },
+            const axieFromDB = await prisma.axie.findUnique({
                 where: {
                     axieId: axieRating.axieId
-                },
+                }
             })
 
-            if (updateAxie) {
-                res.status(200).json(updateAxie)
+            if (axieFromDB) {
+
+                const cuteRatingTotal = parseFloat(axieRating.rating.cute + axieFromDB.cuteRatingTotal)
+                const coolRatingTotal = parseFloat(axieRating.rating.cool + axieFromDB.cuteRatingTotal)
+                const impressions = axieFromDB.impressions + 1
+                const axieCuteScore = cuteRatingTotal / impressions
+                const axieCoolScore = coolRatingTotal / impressions
+
+                const updateAxie = await prisma.axie.update({
+                    data: {
+                        cuteRatingTotal: cuteRatingTotal,
+                        coolRatingTotal: coolRatingTotal,
+                        impressions: impressions,
+                        axieCuteScore: axieCuteScore,
+                        axieCoolScore: axieCoolScore
+                    },
+                    where: {
+                        axieId: axieRating.axieId
+                    },
+                })
+
+                const logVote = await prisma.vote.create({ 
+                    data: { 
+                        axieId: axieRating.axieId, 
+                        voter: "xxgunnery", 
+                        cuteRating: axieRating.rating.cute, 
+                        coolRating: axieRating.rating.cool
+                    } 
+                })
+
+                if (updateAxie && logVote) {
+                    res.status(200).json(updateAxie)
+                } else {
+                    res.status(404).json({ error: "Axie not found or other error" })
+                }
             } else {
-                res.status(404).json({ error: "Axie not found or other error" })
+                res.status(404).json({ error: "Axie not found" })
             }
 
         } else {

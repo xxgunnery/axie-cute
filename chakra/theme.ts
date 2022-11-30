@@ -5,8 +5,8 @@ import {
     useColorModeValue,
     withDefaultColorScheme,
     withDefaultVariant,
-} from '@chakra-ui/react';
-import { mode } from '@chakra-ui/theme-tools';
+} from '@chakra-ui/react'
+import { mode, StyleFunctionProps } from '@chakra-ui/theme-tools'
 
 const theme = extendTheme(
     {
@@ -65,11 +65,11 @@ const theme = extendTheme(
         fonts: {
         },
         styles: {
-            global: (props: any) => ({
+            global: (props: StyleFunctionProps) => ({
                 body: {
                     color: mode('gray.800', 'gray.100')(props),
                     textShadow: mode('0 0.5px 0.5px rgba(0, 0, 0, 0.2)', '0 2px 4px rgba(0, 0, 0, 0.3)')(props),
-                    bg: mode('gray.100', 'gray.700')(props),
+                    bg: mode('gray.100', 'gray.800')(props),
                 }
             })
         },

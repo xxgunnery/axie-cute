@@ -14,7 +14,9 @@ export default function App({ Component, pageProps }: AppProps) {
     return (
         <ChakraProvider theme={theme}>
             <QueryClientProvider client={queryClient}>
-                <Component {...pageProps} />
+                <SessionProvider session={pageProps.session}>
+                    <Component {...pageProps} />
+                </SessionProvider>
             </QueryClientProvider>
         </ChakraProvider>
     )

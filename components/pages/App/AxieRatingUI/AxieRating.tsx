@@ -97,10 +97,12 @@ export default function AxieRating({
             let coolRating = -y / (targetRect.height / 2)
             cuteRating = normalizeRating(cuteRating)
             coolRating = normalizeRating(coolRating)
-            if (coolRating > 10) coolRating = 10
-            if (cuteRating > 10) cuteRating = 10
-            if (coolRating < 0) coolRating = 0
-            if (cuteRating < 0) cuteRating = 0
+
+            if (coolRating > 9.7) coolRating = 10
+            if (cuteRating > 9.7) cuteRating = 10
+            if (coolRating < 0.3) coolRating = 0
+            if (cuteRating < 0.3) cuteRating = 0
+            
             setAxieRating({ cute: cuteRating, cool: coolRating })
         }
     }
@@ -132,7 +134,7 @@ export default function AxieRating({
             justifyContent="center"
             border="1px solid"
             background={`conic-gradient(from 0deg ${changeBorderColorWithAxieRating(axieRating)})`}
-            borderRadius="5px"
+            borderRadius="25px"
             position="relative"
             onPointerDown={(e) => {
                 const dropper = document.getElementById("ratingDropper")
@@ -160,7 +162,7 @@ export default function AxieRating({
                 }
             }}
         >
-            <Box w="97%" h="97%" bg="gray.800" borderRadius="4px">
+            <Box w="97%" h="97%" bg="gray.800" borderRadius="20px">
 
             </Box>
             <Box
