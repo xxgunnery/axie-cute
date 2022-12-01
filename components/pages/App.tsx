@@ -12,14 +12,8 @@ import Waiting from '../common-components/Waiting'
 import { fetchAllAxies } from '../../scripts/graphql/graphql'
 import { useSession } from 'next-auth/react'
 
-export interface AxieFormData {
-    class: string
-    body: string
-}
-
 export default function App() {
 
-    const [formData, setFormData] = React.useState<AxieFormData>({ class: '', body: '' })
     const [imagesLoaded, setImagesLoaded] = React.useState<boolean>(true)
     const [axieNum, setAxieNum] = React.useState<number>(0)
 
@@ -82,23 +76,6 @@ export default function App() {
                 w="100%"
                 justifyContent="center"
             >
-                <Flex
-                    columnGap="10px"
-                    display="none"
-                >
-                    <AxieMenuSelection
-                        menuList={AXIE_BODY_LIST}
-                        menuName={"Body"}
-                        formData={formData}
-                        setFormData={setFormData}
-                    />
-                    <AxieMenuSelection
-                        menuList={AXIE_CLASS_LIST}
-                        menuName={"Class"}
-                        formData={formData}
-                        setFormData={setFormData}
-                    />
-                </Flex>
                 <VStack display={imagesLoaded ? "flex" : "none"}>
                     <VStack
                         w="400px"

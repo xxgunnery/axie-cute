@@ -105,7 +105,7 @@ export default function Login() {
                             If you don&apos;t have an account with Axie-Cute, an account will automatically be created.
                         </ListItem>
                         <ListItem>
-                            Upon creating an account with Axie-Cute, your axies will be added to the Axie-Cute ecosystem. Your axies are will be able to be rated by other users of the app!
+                            Upon creating an account with Axie-Cute, your axies will be added to the Axie-Cute ecosystem. Your axies will be able to be rated by other users of the app!
                         </ListItem>
                     </UnorderedList>
                 </VStack>

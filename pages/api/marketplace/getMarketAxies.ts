@@ -4,7 +4,28 @@ import prisma from "../../../scripts/prisma"
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     try {
-        const axiesList = await prisma.axie.findMany({ orderBy: { axieCuteScore: "desc" }, take: 20 })
+        let queryWhere = {}
+        let queryOrder = {}
+        if (req.query) {
+            if (req.query.bodyShape !== '' && req.query.bodyShape !== 'Body Shape') {
+                queryWhere = { ...queryWhere, bodyShape: req.query.bodyShape }
+            }
+            if (req.query.class !== '' && req.query.class !== 'Class Name') {
+                queryWhere = { ...queryWhere, class: req.query.class }
+            }
+            if (req.query.order !== '') {
+                if (req.query.order === 'Axie Cute Score' || req.query.order === 'Order') {
+                    queryOrder = { ...queryOrder, axieCuteScore: 'desc' }
+                }
+                if (req.query.order === 'Axie Cool Score') {
+                    queryOrder = { ...queryOrder, axieCoolScore: 'desc' }
+                }
+                if (req.query.order === 'Impressions') {
+                    queryOrder = { ...queryOrder, impressions: 'desc' }
+                }
+            }
+        }
+        const axiesList = await prisma.axie.findMany({ where: queryWhere, orderBy: queryOrder, take: 20 })
         if (axiesList) {
             res.status(200).json({ axiesList })
         }
