@@ -6,6 +6,7 @@ import { SessionProvider } from 'next-auth/react'
 import theme from '../chakra/theme'
 import { QueryClient } from '@tanstack/react-query'
 import { QueryClientProvider } from '@tanstack/react-query'
+import { Analytics } from '@vercel/analytics/react'
 
 export default function App({ Component, pageProps }: AppProps) {
 
@@ -28,6 +29,7 @@ export default function App({ Component, pageProps }: AppProps) {
                 <QueryClientProvider client={queryClient}>
                     <SessionProvider session={pageProps.session}>
                         <Component {...pageProps} />
+                        <Analytics />
                     </SessionProvider>
                 </QueryClientProvider>
             </ForceDarkMode>
