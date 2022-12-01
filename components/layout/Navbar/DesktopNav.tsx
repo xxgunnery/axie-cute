@@ -5,7 +5,11 @@ import { useRouter } from "next/router"
 import { signOut, useSession } from "next-auth/react"
 import { sliceRoninAddress } from "../../../scripts/utils/utils"
 
-export default function DesktopNav() {
+type Props = {
+    connectToRonin: () => Promise<void>
+}
+
+export default function DesktopNav({ connectToRonin }: Props) {
 
     const router = useRouter()
     const currentPage = router.pathname.split("/")[1]
@@ -73,7 +77,7 @@ export default function DesktopNav() {
                             :
                             <>
                                 <Image src={"/images/ronin-logo.svg"} width="30px" height="30px" />
-                                <Button bg="none" fontSize="20px" fontWeight="700">
+                                <Button bg="none" fontSize="20px" fontWeight="700" onClick={() => connectToRonin()}>
                                     Wallet Not Connected
                                 </Button>
                             </>

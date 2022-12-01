@@ -4,7 +4,11 @@ import { useRouter } from "next/router"
 import { signOut, useSession } from "next-auth/react"
 import { sliceRoninAddress } from "../../../scripts/utils/utils"
 
-export default function MobileNav() {
+type Props = {
+    connectToRonin: () => Promise<void>
+}
+
+export default function MobileNav({ connectToRonin }: Props) {
 
     const [showNav, setShowNav] = React.useState(false)
 
@@ -18,7 +22,7 @@ export default function MobileNav() {
             alignItems="center"
             justifyContent="space-between"
             p="10px"
-            borderBottom="1px solid black"
+            borderBottom="1px solid rgba(255,255,255,0.3)"
             w="100%"
         >
             <Button
@@ -37,7 +41,7 @@ export default function MobileNav() {
                 position="absolute"
                 left="0"
                 top="0"
-                borderBottom="1px solid rgba(255,255,255,0.5)"
+                borderBottom="1px solid rgba(255,255,255,0.2)"
                 w="100%"
                 zIndex="1000"
                 bg={useColorModeValue("white", "gray.700")}
@@ -45,7 +49,7 @@ export default function MobileNav() {
                 <Flex
                     w="100%"
                     justifyContent="space-between"
-                    borderBottom="3px solid black"
+                    borderBottom="1px solid rgba(255,255,255,0.2)"
                     p="10px"
                 >
                     <Heading size="2xl">
@@ -82,7 +86,7 @@ export default function MobileNav() {
                         </Button>
                     </Flex>
                 </VStack>
-                <Flex alignItems="center" columnGap="20px" p="10px" borderTop="1px solid rgba(255,255,255,0.3)" w="100%">
+                <Flex alignItems="center" columnGap="20px" p="10px" borderTop="1px solid rgba(255,255,255,0.2)" w="100%">
                     <Flex
                         borderRadius="5px"
                         h="60px"
@@ -109,7 +113,7 @@ export default function MobileNav() {
                                 :
                                 <>
                                     <Image src={"/images/ronin-logo.svg"} width="30px" height="30px" />
-                                    <Button bg="none" fontSize="20px" fontWeight="800">
+                                    <Button bg="none" fontSize="20px" fontWeight="800" onClick={() => connectToRonin()} >
                                         Wallet Not Connected
                                     </Button>
                                 </>
@@ -122,7 +126,7 @@ export default function MobileNav() {
                         </Button>
                     }
                 </Flex>
-            </VStack>
-        </Flex>
+            </VStack >
+        </Flex >
     )
 }
