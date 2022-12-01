@@ -33,6 +33,10 @@ export const authOptions: NextAuthOptions = {
                     }
                     const signerAddress = ethers.utils.verifyMessage(credentials.message, credentials.signature)
 
+                    if (signerAddress) {
+                        await prisma.nonce.delete({ where: { nonce: credentials.nonce } })
+                    }
+
                     const currentUser = await prisma.user.findUnique({
                         where: {
                             address: signerAddress

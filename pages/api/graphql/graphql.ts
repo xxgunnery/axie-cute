@@ -5,8 +5,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     try {
         if (req.body) {
 
-            console.log(req.body.payload)
-
             const headers = {
                 headers: {
                     'Content-Type': 'application/json'

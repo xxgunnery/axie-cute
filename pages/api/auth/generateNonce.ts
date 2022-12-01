@@ -5,6 +5,7 @@ import { Prisma } from "@prisma/client"
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     try {
+        await prisma.nonce.deleteMany()
         const generatedNonce = uuidv4()
         const nonce = await prisma.nonce.create({ data: { nonce: generatedNonce } })
         res.status(200).json(nonce)
