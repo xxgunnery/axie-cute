@@ -16,7 +16,6 @@ export default function MobileNav() {
     return (
         <Flex
             alignItems="center"
-            position="absolute"
             justifyContent="space-between"
             p="10px"
             borderBottom="1px solid black"

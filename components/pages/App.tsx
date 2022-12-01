@@ -73,7 +73,11 @@ export default function App() {
     const axies = axieQuery.data.data
 
     return (
-        <VStack m="0px!important">
+        <VStack
+            m="0px!important"
+            h="98vh"
+            overflowY="scroll"
+        >
             <VStack
                 w="100%"
                 justifyContent="center"
