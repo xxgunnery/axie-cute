@@ -1,10 +1,6 @@
 import {
     extendTheme,
     theme as base,
-    useColorMode,
-    useColorModeValue,
-    withDefaultColorScheme,
-    withDefaultVariant,
 } from '@chakra-ui/react'
 import { mode, StyleFunctionProps } from '@chakra-ui/theme-tools'
 
