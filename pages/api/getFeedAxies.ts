@@ -1,4 +1,3 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import { Prisma } from '@prisma/client'
 import type { NextApiRequest, NextApiResponse } from 'next'
 import prisma from "../../scripts/prisma"
@@ -9,9 +8,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         if (axiesList) {
             const axiesCopy = [...axiesList]
             const axieFeed = []
-            for(let x = 0; x < 5; x++) {
+            for (let x = 0; x < 5; x++) {
                 const randomNumber = Math.random()
-                if(randomNumber < 0.2) {
+                if (randomNumber < 0.2) {
                     const index = Math.floor(Math.random() * axiesCopy.length)
                     const randomAxie = axiesCopy[index]
                     axiesCopy.splice(index, 1)

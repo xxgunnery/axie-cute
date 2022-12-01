@@ -1,13 +1,13 @@
-import { NextApiRequest, NextApiResponse } from "next"
+import { Prisma } from '@prisma/client'
+import type { NextApiRequest, NextApiResponse } from 'next'
 import prisma from "../../../scripts/prisma"
-import { v4 as uuidv4 } from "uuid"
-import { Prisma } from "@prisma/client"
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     try {
-        const generatedNonce = await uuidv4()
-        const nonce = await prisma.nonce.create({ data: { nonce: generatedNonce } })
-        res.status(200).json(nonce)
+        const axiesList = await prisma.axie.findMany({ orderBy: { axieCoolScore: "desc" } })
+        if (axiesList) {
+            res.status(200).json({ axiesList })
+        }
     } catch (error) {
         if (error instanceof Prisma.PrismaClientKnownRequestError) {
             if (error.code === "P2002") {

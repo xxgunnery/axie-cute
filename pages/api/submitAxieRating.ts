@@ -8,13 +8,16 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         if (req.body) {
             const axieRating = req.body
 
+            const foundVoter = await prisma.user.findUnique({ where: { address: axieRating.voter } })
+            console.log("foundVoter", foundVoter)
+
             const axieFromDB = await prisma.axie.findUnique({
                 where: {
                     axieId: axieRating.axieId
                 }
             })
 
-            if (axieFromDB) {
+            if (axieFromDB && foundVoter) {
 
                 const cuteRatingTotal = parseFloat(axieRating.rating.cute + axieFromDB.cuteRatingTotal)
                 const coolRatingTotal = parseFloat(axieRating.rating.cool + axieFromDB.cuteRatingTotal)
@@ -38,7 +41,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 const logVote = await prisma.vote.create({ 
                     data: { 
                         axieId: axieRating.axieId, 
-                        voter: "xxgunnery", 
+                        voter: foundVoter,
                         cuteRating: axieRating.rating.cute, 
                         coolRating: axieRating.rating.cool
                     } 

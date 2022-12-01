@@ -67,8 +67,8 @@ const theme = extendTheme(
         styles: {
             global: (props: StyleFunctionProps) => ({
                 body: {
-                    color: mode('gray.800', 'gray.100')(props),
-                    textShadow: mode('0 0.5px 0.5px rgba(0, 0, 0, 0.2)', '0 2px 4px rgba(0, 0, 0, 0.3)')(props),
+                    color: mode('gray.800', 'gray.200')(props),
+                    textShadow: mode('0 0.5px 0.5px rgba(0, 0, 0, 0.2)', '0 2px 4px rgba(0, 0, 0, 0.5)')(props),
                     bg: mode('gray.100', 'gray.800')(props),
                 }
             })
@@ -99,6 +99,19 @@ const theme = extendTheme(
                             backgroundColor: mode('brand.brand.700', 'brand.400')(props)
                         }
                     }),
+                    navLinkCurrent: (props: any) => ({
+                        bg: "rgba(0,0,0,0.2)",
+                        _hover: {
+                            filter: "brightness(0.9)",
+                        },
+                        color: "#E4F405"
+                    }),
+                    navLink: (props: any) => ({
+                        _hover: {
+                            bg: "rgba(0,0,0,0.1)",
+                        }
+                    }),
+
                 }
             }
         }

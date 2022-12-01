@@ -3,8 +3,11 @@ import { Box, Button, Flex, Image, VStack } from '@chakra-ui/react'
 import axios from 'axios'
 import styles from './axierating.module.css'
 import AxieRating from './AxieRatingUI/AxieRating'
+import { useSession } from 'next-auth/react'
 
 export default function AxieRatingUI({ axieNum, setAxieNum, axieQuery }: any) {
+
+    const { data: session, status } = useSession()
 
     // THIS COMPONENT LEVEL STATE
     const [axieRating, setAxieRating] = React.useState({ cute: 5, cool: 5 })
@@ -20,7 +23,9 @@ export default function AxieRatingUI({ axieNum, setAxieNum, axieQuery }: any) {
     async function submitRating(axieQuery: any) {
         setIsButtonDisabled(false)
 
-        const postResult = await axios.post("api/submitAxieRating", { rating: axieRating, axieId: axies[axieNum].axieId })
+        if (session) {
+            await axios.post("api/submitAxieRating", { rating: axieRating, axieId: axies[axieNum].axieId, voter: session.user.address })
+        }
 
         if (axieNum === axieQuery.data.data.length - 1) {
             setAxieRating({ cute: 5, cool: 5 })
@@ -98,7 +103,7 @@ export default function AxieRatingUI({ axieNum, setAxieNum, axieQuery }: any) {
                     mt="5px"
                 >
                     MORE CUTE
-                    <Image src="/images/arrow-right.png" w="270px" alt="Bottom Axis Arrow"/>
+                    <Image src="/images/arrow-right.png" w="270px" alt="Bottom Axis Arrow" />
                 </Flex>
             </VStack>
             <VStack mt="10px!important">

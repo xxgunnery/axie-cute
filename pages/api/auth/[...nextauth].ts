@@ -2,6 +2,7 @@ import prisma from "../../../scripts/prisma"
 import CredentialsProvider from "next-auth/providers/credentials"
 import { NextAuthOptions } from "next-auth"
 import NextAuth from "next-auth/next"
+import { ethers } from "ethers"
 
 export const authOptions: NextAuthOptions = {
     providers: [
@@ -9,25 +10,51 @@ export const authOptions: NextAuthOptions = {
             id: "ronin",
             name: "Ronin",
             credentials: {
-                address: { label: "Ronin address", type: "text", placeholder: "ronin:..." }
+                message: {
+                    label: "Message",
+                    type: "text",
+                    placeholder: "0x0",
+                },
+                signature: {
+                    label: "Signature",
+                    type: "text",
+                    placeholder: "0x0",
+                },
+                nonce: {
+                    label: "Nonce",
+                    type: "text",
+                },
             },
             async authorize(credentials) {
                 if (credentials) {
+                    const returnedNonce = credentials.message.split("unique code: ")[1].split('"')[0]
+                    if (returnedNonce !== credentials.nonce) {
+                        throw new Error("Invalid Nonce-Message Pair")
+                    }
+                    const signerAddress = ethers.utils.verifyMessage(credentials.message, credentials.signature)
+
                     const currentUser = await prisma.user.findUnique({
                         where: {
-                            address: credentials.address
+                            address: signerAddress
                         }
                     })
+
                     if (currentUser) {
-                        return { id: currentUser.id.toString(), address: currentUser.address }
+                        return {
+                            id: currentUser.id.toString(),
+                            address: currentUser.address
+                        }
                     } else {
                         const newUser = await prisma.user.create({
                             data: {
-                                address: credentials.address
+                                address: signerAddress
                             }
                         })
                         if (newUser) {
-                            return { id: newUser.id.toString(), address: newUser.address }
+                            return {
+                                id: newUser.id.toString(),
+                                address: newUser.address
+                            }
                         } else {
                             return null
                         }
@@ -49,6 +76,7 @@ export const authOptions: NextAuthOptions = {
         async jwt({ token, user }) {
             if (user) {
                 token = {
+                    role: user.role,
                     address: user.address
                 }
             }

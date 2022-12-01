@@ -1,16 +1,7 @@
 import React from "react"
-import {
-    Flex,
-    Button,
-    VStack,
-    Heading,
-    useColorModeValue,
-    Link,
-    Image,
-    Box
-} from "@chakra-ui/react"
+import { Flex, Button, VStack, Heading, useColorModeValue, Link, Image, Box } from "@chakra-ui/react"
 import { useRouter } from "next/router"
-import { useSession } from "next-auth/react"
+import { signOut, useSession } from "next-auth/react"
 import { sliceRoninAddress } from "../../../scripts/utils/utils"
 
 export default function MobileNav() {
@@ -34,7 +25,7 @@ export default function MobileNav() {
             <Button
                 onClick={() => setShowNav((prevState) => !prevState)}
                 borderRadius="5px"
-                bg="gray.700"
+                bg="gray.600"
                 variant="primary"
             >
                 <Image src={"/images/hamburger.svg"} minWidth="30px" height="30px" />
@@ -43,68 +34,96 @@ export default function MobileNav() {
             <VStack
                 justifyContent="space-between"
                 alignItems="baseline"
-                p="15px"
                 display={showNav ? "flex" : "none"}
                 position="absolute"
                 left="0"
                 top="0"
-                borderBottom="1px solid black"
+                borderBottom="1px solid rgba(255,255,255,0.5)"
                 w="100%"
                 zIndex="1000"
-                bg={useColorModeValue("white", "gray.800")}
+                bg={useColorModeValue("white", "gray.700")}
             >
                 <Flex
                     w="100%"
                     justifyContent="space-between"
                     borderBottom="3px solid black"
-                    paddingBottom="10px"
+                    p="10px"
                 >
-                    <Heading size="2xl">AXIE-CUTE</Heading>
+                    <Heading size="2xl">
+                        AXIE-CUTE
+                        <Image display="inline" src="/images/axie-9298317.png" w="60px" h="60px" ml="10px" mb="-15px" />
+                    </Heading>
                     <Button onClick={() => setShowNav((prevState) => !prevState)}>
                         X
                     </Button>
                 </Flex>
-                <Button variant={currentPage === "" ? `navLinkCurrent` : `navLink`}>
-                    <Link
-                        href={"/"}
-                        _hover={{ textDecoration: "none" }}
-                        fontSize="16px"
+                <VStack alignItems="flex-start" mb="30px!important" w="250px" p="10px">
+                    <Flex w="100%">
+                        <Button
+                            w="100%"
+                            fontSize="20px!important"
+                            h="60px"
+                            variant={currentPage === "" ? `navLinkCurrent` : `navLink`}
+                        >
+                            <Link href={"/"} _hover={{ textDecoration: "none" }}>
+                                😸 Axie-Cute App
+                            </Link>
+                        </Button>
+                    </Flex>
+                    <Flex w="100%">
+                        <Button
+                            fontSize="20px!important"
+                            w="100%"
+                            h="60px"
+                            variant={currentPage === "marketplace" ? `navLinkCurrent` : `navLink`}
+                        >
+                            <Link href={"/marketplace"} _hover={{ textDecoration: "none" }}>
+                                🏛️ Marketplace
+                            </Link>
+                        </Button>
+                    </Flex>
+                </VStack>
+                <Flex alignItems="center" columnGap="20px" p="10px" borderTop="1px solid rgba(255,255,255,0.3)" w="100%">
+                    <Flex
+                        borderRadius="5px"
+                        h="60px"
+                        alignItems="center"
+                        p="4px 8px 4px 8px"
+                        bg="brand.300"
+                        color="black"
                     >
-                        🏠 HOME
-                    </Link>
-                </Button>
-                <Flex
-                    borderRadius="10px"
-                    p="4px 8px 4px 8px"
-                    bg="brand.300"
-                    color="black"
-                    fontWeight="800"
-                >
+                        {
+                            session && (status === "authenticated")
+                                ?
+                                <>
+                                    <Image src={"/images/ronin-logo.svg"} width="30px" height="30px" />
+                                    <Box
+                                        _hover={{ cursor: "default!important" }}
+                                        bg="brand.300"
+                                        p="7px 10px 7px 10px"
+                                        borderRadius="2px"
+                                        fontSize="20px"
+                                    >
+                                        {`Connected (${sliceRoninAddress(session.user?.address)})`}
+                                    </Box>
+                                </>
+                                :
+                                <>
+                                    <Image src={"/images/ronin-logo.svg"} width="30px" height="30px" />
+                                    <Button bg="none" fontSize="20px" fontWeight="800">
+                                        Wallet Not Connected
+                                    </Button>
+                                </>
+                        }
+                    </Flex>
                     {
-                        session && (status === "authenticated")
-                            ?
-                            <>
-                                <Image src={"/images/ronin-logo.svg"} width="30px" height="30px" />
-                                <Box
-                                    _hover={{ cursor: "default!important" }}
-                                    bg="brand.50"
-                                    p="7px 10px 7px 10px"
-                                    borderRadius="5px"
-                                >
-                                    {`Connected (ronin: ${sliceRoninAddress(session.user?.address)})`}
-                                </Box>
-                            </>
-                            :
-                            <>
-                                <Image src={"/images/ronin-logo.svg"} width="30px" height="30px" />
-                                <Button bg="none">
-                                    Connect Ronin Wallet
-                                </Button>
-                            </>
+                        session && (status === "authenticated") &&
+                        <Button onClick={() => signOut()} borderRadius="5px" bg="gray.800">
+                            Sign Out
+                        </Button>
                     }
                 </Flex>
             </VStack>
-            {showNav}
         </Flex>
     )
 }

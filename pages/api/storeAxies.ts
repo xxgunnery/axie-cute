@@ -6,12 +6,13 @@ import prisma from "../../scripts/prisma"
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     try {
         if (req.body) {
+            //await prisma.axie.deleteMany()
             const rawAxieData = req.body.axies
+            console.log(req.body)
             const prismaAxies = []
             for (const axie of rawAxieData) {
                 prismaAxies.push({
                     axieId: axie.id,
-                    owner: axie.owner,
                     bodyShape: axie.bodyShape,
                     class: axie.class,
                     name: axie.name,

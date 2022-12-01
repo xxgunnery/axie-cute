@@ -1,5 +1,4 @@
 import axios from "axios"
-import { AxieFormData } from "../../components/app/AxieFeed"
 
 const axieSchema = `
 query GetAxieBriefList($auctionType: AuctionType, $criteria: AxieSearchCriteria, $owner: String) {
@@ -27,28 +26,12 @@ fragment AxieBrief on Axie {
 }
 `
 
-interface Criteria {
-    classes: string[]
-    bodyShapes: string[]
-}
-
-export async function fetchAllAxies(formData: AxieFormData) {
-    const criteria: Criteria = {
-        classes: [],
-        bodyShapes: []
-    }
-    if (formData.class !== '') {
-        criteria.classes.push(formData.class)
-    }
-    if (formData.body !== '') {
-        criteria.bodyShapes.push(formData.body)
-    }
+export async function fetchAllAxies(userAddress: string) {
     const payload = JSON.stringify({
         operation: "GetAxieBriefList",
         query: axieSchema,
         variables: {
-            criteria: criteria,
-            owner: "0x239dd0031d1e39ca814593ab03518f3fe967aa6c",
+            owner: userAddress,
             sort: "IdAsc"
         },
     })
@@ -56,7 +39,6 @@ export async function fetchAllAxies(formData: AxieFormData) {
         const { data } = await axios.post("api/graphql/graphql", {
             payload: payload,
         })
-        //console.log("res.data", res.data)
         return data
     } catch (err) {
         throw err

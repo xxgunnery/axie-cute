@@ -10,6 +10,7 @@ import AxieRating from './App/AxieRatingUI'
 import styles from './App/axierating.module.css'
 import Waiting from '../common-components/Waiting'
 import { fetchAllAxies } from '../../scripts/graphql/graphql'
+import { useSession } from 'next-auth/react'
 
 export interface AxieFormData {
     class: string
@@ -22,34 +23,46 @@ export default function App() {
     const [imagesLoaded, setImagesLoaded] = React.useState<boolean>(true)
     const [axieNum, setAxieNum] = React.useState<number>(0)
 
-    async function storeAxies(sampleAxies: any) {
-        const storage = await axios.post("api/storeAxies", { axies: sampleAxies })
-        console.log("UNIQUE AXIES SUCCESSFULLY STORED", storage.data)
-    }
+    const { data: session, status } = useSession()
 
     async function getFeedAxies() {
         const data = await axios.get("api/getFeedAxies")
         return data
     }
 
+    async function storeAxies(sampleAxies: any) {
+        if (session) {
+            const storage = await axios.post("api/storeAxies", { axies: sampleAxies, owner: session.user.address })
+            console.log("UNIQUE AXIES SUCCESSFULLY STORED", storage.data)
+        }
+    }
+
     // GET USER'S AXIES FROM GRAPHQL
-    const myAxieQuery = useQuery(['myAxies'], () => fetchAllAxies(formData), {
+    const userAxieQuery = useQuery(['myAxies'], () => session && fetchAllAxies(session.user.address), {
         refetchOnWindowFocus: false,
         refetchOnMount: false,
         refetchOnReconnect: false,
     })
-    
+
     let userAxies: any = false
-    if (!myAxieQuery.isLoading && !myAxieQuery.isError) {
-        userAxies = myAxieQuery.data.data.part1.results
+    if (!userAxieQuery.isLoading && !userAxieQuery.isError) {
+        userAxies = userAxieQuery.data.data.part1.results
     }
 
-    const storeAxiesQuery = useQuery(['axieStorage'], () => storeAxies(userAxies), {
+    const storeAxiesQuery = useQuery(['axieStorage'], () => session && storeAxies(userAxies), {
         refetchOnWindowFocus: false,
         refetchOnMount: false,
         refetchOnReconnect: false,
         enabled: !!userAxies
     })
+
+    if (storeAxiesQuery.isLoading) {
+        console.log("STORING AXIES")
+    } else if (storeAxiesQuery.isError) {
+        console.log("ERROR STORING AXIES")
+    } else if (storeAxiesQuery.isSuccess) {
+        console.log("AXIES SUCCESSFULLY STORED")
+    }
 
     // GET PROFILE FEED
     const axieQuery = useQuery(['axies'], () => getFeedAxies(), {
@@ -58,6 +71,7 @@ export default function App() {
         refetchOnReconnect: false,
         enabled: !storeAxiesQuery.isLoading
     })
+
     if (axieQuery.isLoading) {
         return <Waiting width="120px" />
     } else if (axieQuery.isError) {
