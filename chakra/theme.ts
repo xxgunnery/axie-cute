@@ -1,12 +1,12 @@
 import {
     extendTheme,
-    theme as base,
 } from '@chakra-ui/react'
 import { mode, StyleFunctionProps } from '@chakra-ui/theme-tools'
 
 const theme = extendTheme(
     {
         initialColorMode: "dark",
+        useSystemColorMode: false,
         colors: {
             brand: {
                 50: '#e4f4ff',
