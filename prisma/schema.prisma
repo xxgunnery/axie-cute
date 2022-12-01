@@ -11,13 +11,12 @@ datasource db {
 }
 
 model User {
-    id             Int      @id @default(autoincrement())
-    address        String   @unique
-    createdAt      DateTime @default(now())
-    updatedAt      DateTime @updatedAt
-    mostRecentVote DateTime
-    role           String
-    votes          Vote[]
+    id             Int       @id @default(autoincrement())
+    address        String    @unique
+    createdAt      DateTime  @default(now())
+    updatedAt      DateTime  @updatedAt
+    mostRecentVote DateTime?
+    role           Role      @default(USER)
 }
 
 model Axie {
@@ -39,12 +38,11 @@ model Axie {
 model Vote {
     id         Int      @id @default(autoincrement())
     axieId     String
-    voter      User     @relation(fields: [userId], references: [id])
+    voter      String
     createdAt  DateTime @default(now())
     updatedAt  DateTime @updatedAt
     cuteRating Float
     coolRating Float
-    userId     Int
 }
 
 model Nonce {
@@ -53,4 +51,9 @@ model Nonce {
     createdAt DateTime @default(now())
 
     @@index([nonce])
+}
+
+enum Role {
+    USER
+    ADMIN
 }

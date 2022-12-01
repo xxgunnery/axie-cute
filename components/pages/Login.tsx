@@ -50,7 +50,7 @@ export default function Login() {
             alignItems="center"
             justifyContent="center"
         >
-            <Image src="/images/axie-9298317.png" w="300px" />
+            <Image src="/images/axies/axie-9298317.png" w="300px" />
             <VStack
                 justifyContent="center"
                 bg="gray.900"

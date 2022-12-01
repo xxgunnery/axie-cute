@@ -32,7 +32,7 @@ export default function App() {
 
     async function storeAxies(sampleAxies: any) {
         if (session) {
-            const storage = await axios.post("api/storeAxies", { axies: sampleAxies, owner: session.user.address })
+            const storage = await axios.post("api/storeAxies", { axies: sampleAxies })
             console.log("UNIQUE AXIES SUCCESSFULLY STORED", storage.data)
         }
     }
@@ -55,14 +55,6 @@ export default function App() {
         refetchOnReconnect: false,
         enabled: !!userAxies
     })
-
-    if (storeAxiesQuery.isLoading) {
-        console.log("STORING AXIES")
-    } else if (storeAxiesQuery.isError) {
-        console.log("ERROR STORING AXIES")
-    } else if (storeAxiesQuery.isSuccess) {
-        console.log("AXIES SUCCESSFULLY STORED")
-    }
 
     // GET PROFILE FEED
     const axieQuery = useQuery(['axies'], () => getFeedAxies(), {

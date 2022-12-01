@@ -4,7 +4,7 @@ import prisma from "../../../scripts/prisma"
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     try {
-        const axiesList = await prisma.axie.findMany({ orderBy: { axieCoolScore: "desc" } })
+        const axiesList = await prisma.axie.findMany({ orderBy: { axieCuteScore: "desc" }, take: 20 })
         if (axiesList) {
             res.status(200).json({ axiesList })
         }

@@ -9,6 +9,7 @@ declare module "next-auth" {
     user: {
       id: string
       address: string
+      role: string
     }
   }
   interface User {
@@ -21,5 +22,6 @@ declare module "next-auth" {
 declare module "next-auth/jwt" {
     interface JWT {
         address: string
+        role: string
     }
 }

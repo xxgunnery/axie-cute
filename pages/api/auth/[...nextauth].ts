@@ -42,18 +42,20 @@ export const authOptions: NextAuthOptions = {
                     if (currentUser) {
                         return {
                             id: currentUser.id.toString(),
-                            address: currentUser.address
+                            address: currentUser.address,
+                            role: currentUser.role
                         }
                     } else {
                         const newUser = await prisma.user.create({
                             data: {
-                                address: signerAddress
+                                address: signerAddress,
                             }
                         })
                         if (newUser) {
                             return {
                                 id: newUser.id.toString(),
-                                address: newUser.address
+                                address: newUser.address,
+                                role: newUser.role
                             }
                         } else {
                             return null
@@ -85,6 +87,7 @@ export const authOptions: NextAuthOptions = {
         // Pull user info from token into session
         async session({ session, token }) {
             session.user.address = token.address
+            session.user.role = token.role
             return session
         },
         async redirect({ url }) {

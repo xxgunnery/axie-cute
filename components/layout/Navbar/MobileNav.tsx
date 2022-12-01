@@ -51,7 +51,7 @@ export default function MobileNav() {
                 >
                     <Heading size="2xl">
                         AXIE-CUTE
-                        <Image display="inline" src="/images/axie-9298317.png" w="60px" h="60px" ml="10px" mb="-15px" />
+                        <Image display="inline" src="/images/axies/axie-9298317.png" w="60px" h="60px" ml="10px" mb="-15px" />
                     </Heading>
                     <Button onClick={() => setShowNav((prevState) => !prevState)}>
                         X

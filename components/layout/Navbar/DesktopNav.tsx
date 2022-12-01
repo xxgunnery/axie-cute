@@ -24,7 +24,7 @@ export default function DesktopNav() {
             minW="320px"
         >
             <VStack mt="10px" w="230px">
-                <Image src="/images/axie-9298317.png" w="150px" />
+                <Image src="/images/axies/axie-9298317.png" w="150px" />
                 <Flex w="100%">
                     <Button
                         fontSize="20px!important"

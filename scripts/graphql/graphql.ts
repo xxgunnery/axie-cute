@@ -17,6 +17,10 @@ fragment AxieBrief on Axie {
   genes
   owner
   bodyShape
+  order {
+    currentPrice
+    currentPriceUsd
+  }
   parts {
     type
     id
@@ -32,7 +36,8 @@ export async function fetchAllAxies(userAddress: string) {
         query: axieSchema,
         variables: {
             owner: userAddress,
-            sort: "IdAsc"
+            sort: "IdAsc",
+            auctionType: "Sale"
         },
     })
     try {
@@ -41,6 +46,7 @@ export async function fetchAllAxies(userAddress: string) {
         })
         return data
     } catch (err) {
+        console.log(err)
         throw err
     }
 }
