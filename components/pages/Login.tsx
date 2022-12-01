@@ -13,7 +13,7 @@ export default function Login() {
     //Connect your Ronin wallet
     async function connectToRonin() {
         setIsLoggingIn(true)
-        const nonce = await axios.get("api/auth/generateNonce").then((result) => result.data.nonce)
+        const nonce = await axios.get("/api/auth/generateNonce").then((result) => result.data.nonce)
         const message = "Welcome to Axie-Cute! Your unique code: " + nonce
 
         console.log({ message, nonce })
