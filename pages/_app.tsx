@@ -7,6 +7,7 @@ import theme from '../chakra/theme'
 import { QueryClient } from '@tanstack/react-query'
 import { QueryClientProvider } from '@tanstack/react-query'
 import { Analytics } from '@vercel/analytics/react'
+import Head from 'next/head'
 
 export default function App({ Component, pageProps }: AppProps) {
 
@@ -28,6 +29,16 @@ export default function App({ Component, pageProps }: AppProps) {
             <ForceDarkMode>
                 <QueryClientProvider client={queryClient}>
                     <SessionProvider session={pageProps.session}>
+                        <Head>
+                            {/* Primary Meta Tags */}
+                            <title>Axie-Cute</title>
+                            <link rel="icon" type="image/x-icon" href="/images/axies/axie-9298317.png" />
+                            <meta name="title" content="Axie-Cute" />
+                            <meta
+                                name="description"
+                                content="Ready to browse and rate adorable axies? You're in the right place!"
+                            />
+                        </Head>
                         <Component {...pageProps} />
                         <Analytics />
                     </SessionProvider>
