@@ -50,13 +50,13 @@ export default function App({ signInLater, dummyUser }: { signInLater: boolean, 
         refetchOnWindowFocus: false,
         refetchOnMount: false,
         refetchOnReconnect: false,
-        enabled: typeof(session) !== null && !signInLater,
+        enabled: typeof (session) !== null && !signInLater,
     })
 
     let userAxies: any = false
-    if(!signInLater) {
+    if (!signInLater) {
         if (!userAxieQuery.isLoading && !userAxieQuery.isError) {
-            userAxies = userAxieQuery.data.data.part1.results
+            userAxies = userAxieQuery.data
         }
     }
 

@@ -14,9 +14,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                     bodyShape: axie.bodyShape,
                     class: axie.class,
                     name: axie.name,
-                    parts: JSON.stringify(axie.parts)
                 })
             }
+            console.log(prismaAxies.length)
             const createMany = await prisma.axie.createMany({ data: prismaAxies, skipDuplicates: true })
             if (prismaAxies) {
                 res.status(200).json(createMany)

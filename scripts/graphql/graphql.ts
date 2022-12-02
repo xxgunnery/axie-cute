@@ -2,7 +2,152 @@ import axios from "axios"
 
 const axieSchema = `
 query GetAxieBriefList($auctionType: AuctionType, $criteria: AxieSearchCriteria, $owner: String) {
-  part1: axies(auctionType: $auctionType, from: 0, size: 80, sort: PriceAsc, criteria: $criteria, owner: $owner) {
+  part1: axies(auctionType: $auctionType, from: 0, size: 100, sort: PriceAsc, criteria: $criteria, owner: $owner) {
+    results {
+      ...AxieBrief
+    }
+  }
+  part2: axies(auctionType: $auctionType, from: 100, size: 100, sort: PriceAsc, criteria: $criteria, owner: $owner) {
+    results {
+      ...AxieBrief
+    }
+  }
+  part3: axies(auctionType: $auctionType, from: 200, size: 100, sort: PriceAsc, criteria: $criteria, owner: $owner) {
+    results {
+      ...AxieBrief
+    }
+  }
+  part4: axies(auctionType: $auctionType, from: 300, size: 100, sort: PriceAsc, criteria: $criteria, owner: $owner) {
+    results {
+      ...AxieBrief
+    }
+  }
+  part5: axies(auctionType: $auctionType, from: 400, size: 100, sort: PriceAsc, criteria: $criteria, owner: $owner) {
+    results {
+      ...AxieBrief
+    }
+  }
+  part6: axies(auctionType: $auctionType, from: 500, size: 100, sort: PriceAsc, criteria: $criteria, owner: $owner) {
+    results {
+      ...AxieBrief
+    }
+  }
+  part7: axies(auctionType: $auctionType, from: 600, size: 100, sort: PriceAsc, criteria: $criteria, owner: $owner) {
+    results {
+      ...AxieBrief
+    }
+  }
+  part8: axies(auctionType: $auctionType, from: 700, size: 100, sort: PriceAsc, criteria: $criteria, owner: $owner) {
+    results {
+      ...AxieBrief
+    }
+  }
+  part9: axies(auctionType: $auctionType, from: 800, size: 100, sort: PriceAsc, criteria: $criteria, owner: $owner) {
+    results {
+      ...AxieBrief
+    }
+  }
+  part10: axies(auctionType: $auctionType, from: 900, size: 100, sort: PriceAsc, criteria: $criteria, owner: $owner) {
+    results {
+      ...AxieBrief
+    }
+  }
+  part11: axies(auctionType: $auctionType, from: 1000, size: 100, sort: PriceAsc, criteria: $criteria, owner: $owner) {
+    results {
+      ...AxieBrief
+    }
+  }
+  part12: axies(auctionType: $auctionType, from: 1100, size: 100, sort: PriceAsc, criteria: $criteria, owner: $owner) {
+    results {
+      ...AxieBrief
+    }
+  }
+  part13: axies(auctionType: $auctionType, from: 1200, size: 100, sort: PriceAsc, criteria: $criteria, owner: $owner) {
+    results {
+      ...AxieBrief
+    }
+  }
+  part14: axies(auctionType: $auctionType, from: 1300, size: 100, sort: PriceAsc, criteria: $criteria, owner: $owner) {
+    results {
+      ...AxieBrief
+    }
+  }
+  part15: axies(auctionType: $auctionType, from: 1400, size: 100, sort: PriceAsc, criteria: $criteria, owner: $owner) {
+    results {
+      ...AxieBrief
+    }
+  }
+  part16: axies(auctionType: $auctionType, from: 1500, size: 100, sort: PriceAsc, criteria: $criteria, owner: $owner) {
+    results {
+      ...AxieBrief
+    }
+  }
+  part17: axies(auctionType: $auctionType, from: 1600, size: 100, sort: PriceAsc, criteria: $criteria, owner: $owner) {
+    results {
+      ...AxieBrief
+    }
+  }
+  part18: axies(auctionType: $auctionType, from: 1700, size: 100, sort: PriceAsc, criteria: $criteria, owner: $owner) {
+    results {
+      ...AxieBrief
+    }
+  }
+  part19: axies(auctionType: $auctionType, from: 1800, size: 100, sort: PriceAsc, criteria: $criteria, owner: $owner) {
+    results {
+      ...AxieBrief
+    }
+  }
+  part20: axies(auctionType: $auctionType, from: 1900, size: 100, sort: PriceAsc, criteria: $criteria, owner: $owner) {
+    results {
+      ...AxieBrief
+    }
+  }
+  part21: axies(auctionType: $auctionType, from: 2000, size: 100, sort: PriceAsc, criteria: $criteria, owner: $owner) {
+    results {
+      ...AxieBrief
+    }
+  }
+  part22: axies(auctionType: $auctionType, from: 2100, size: 100, sort: PriceAsc, criteria: $criteria, owner: $owner) {
+    results {
+      ...AxieBrief
+    }
+  }
+  part23: axies(auctionType: $auctionType, from: 2200, size: 100, sort: PriceAsc, criteria: $criteria, owner: $owner) {
+    results {
+      ...AxieBrief
+    }
+  }
+  part24: axies(auctionType: $auctionType, from: 2300, size: 100, sort: PriceAsc, criteria: $criteria, owner: $owner) {
+    results {
+      ...AxieBrief
+    }
+  }
+  part25: axies(auctionType: $auctionType, from: 2400, size: 100, sort: PriceAsc, criteria: $criteria, owner: $owner) {
+    results {
+      ...AxieBrief
+    }
+  }
+  part26: axies(auctionType: $auctionType, from: 2500, size: 100, sort: PriceAsc, criteria: $criteria, owner: $owner) {
+    results {
+      ...AxieBrief
+    }
+  }
+  part27: axies(auctionType: $auctionType, from: 2600, size: 100, sort: PriceAsc, criteria: $criteria, owner: $owner) {
+    results {
+      ...AxieBrief
+    }
+  }
+  part28: axies(auctionType: $auctionType, from: 2700, size: 100, sort: PriceAsc, criteria: $criteria, owner: $owner) {
+    results {
+      ...AxieBrief
+    }
+  }
+  part29: axies(auctionType: $auctionType, from: 2800, size: 100, sort: PriceAsc, criteria: $criteria, owner: $owner) {
+    results {
+      ...AxieBrief
+    }
+  }
+  part30: axies(auctionType: $auctionType, from: 2900, size: 100, sort: PriceAsc, criteria: $criteria, owner: $owner) {
     results {
       ...AxieBrief
     }
@@ -21,21 +166,16 @@ fragment AxieBrief on Axie {
     currentPrice
     currentPriceUsd
   }
-  parts {
-    type
-    id
-    name
-    class
-  }
 }
 `
 
 export async function fetchAllAxies(userAddress: string) {
+    const userAddress2 = "0xc45e86d1c3d4192ce2f0fb190de8dfac6f007be3"
     const payload = JSON.stringify({
         operation: "GetAxieBriefList",
         query: axieSchema,
         variables: {
-            owner: userAddress,
+            owner: userAddress2,
             sort: "IdAsc",
         },
     })
@@ -43,7 +183,9 @@ export async function fetchAllAxies(userAddress: string) {
         const { data } = await axios.post("api/graphql/graphql", {
             payload: payload,
         })
-        return data
+        var allAxiesArray = await PartArrayMerger([data])
+        console.log(allAxiesArray)
+        return allAxiesArray
     } catch (err) {
         console.log(err)
         throw err
