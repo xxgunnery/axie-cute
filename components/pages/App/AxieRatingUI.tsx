@@ -11,6 +11,7 @@ type Props = {
     setAxieNum: React.Dispatch<React.SetStateAction<number>>
     axies: Axie[]
     refetchAxies: () => void
+    dummyUser: string
 }
 
 export type AxieRatingType = {
@@ -23,7 +24,7 @@ export type XYCoordinates = {
     y: number
 }
 
-export default function AxieRatingUI({ axieNum, setAxieNum, axies, refetchAxies }: Props) {
+export default function AxieRatingUI({ axieNum, setAxieNum, axies, refetchAxies, dummyUser }: Props) {
 
     const { data: session, status } = useSession()
 
@@ -41,6 +42,11 @@ export default function AxieRatingUI({ axieNum, setAxieNum, axies, refetchAxies 
 
         if (session) {
             await axios.post("api/submitAxieRating", { rating: axieRating, axieId: axies[axieNum].axieId, voter: session.user.address })
+        } else if (dummyUser !== "") {
+            await axios.post("api/submitAxieRating", { rating: axieRating, axieId: axies[axieNum].axieId, voter: dummyUser })
+        } else {
+            console.log("PROBLEM")
+            throw new Error("There's a problem here!")
         }
 
         if (axieNum === axies.length - 1) {

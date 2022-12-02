@@ -5,7 +5,7 @@ import { ethers, providers } from 'ethers'
 import WalletConnectProvider from "@walletconnect/web3-provider"
 import { signIn, SignInOptions } from 'next-auth/react';
 
-export default function Login() {
+export default function Login({ setSignInLater, setDummyUser }: { setSignInLater: (value: boolean) => void, setDummyUser: (value: string) => void }) {
 
     const [isLoggingIn, setIsLoggingIn] = React.useState<boolean>(false)
     const [showFAQ, setShowFAQ] = React.useState<boolean>(false)
@@ -41,6 +41,19 @@ export default function Login() {
                 })
             }
         })
+    }
+
+    async function createDummyUser() {
+        setSignInLater(true)
+        setIsLoggingIn(true)
+        const dummyUser = await axios.get("/api/auth/createDummyUser").then((result) => result.data)
+        if(!dummyUser) {
+            setIsLoggingIn(false)
+            return
+        } else {
+            setDummyUser(dummyUser.address)
+            setIsLoggingIn(false)
+        }
     }
 
     return (
@@ -84,7 +97,7 @@ export default function Login() {
                     Welcome to Axie-Cute!
                 </Heading>
                 <Box textAlign="center" fontSize={{base: "17px", md: "20px"}}>
-                    Ready to browse some adorable axies? Get started by signing in!
+                    Ready to browse some adorable axies? You can add your axies to the Axie-Cute ecosystem by signing in with Ronin!
                 </Box>
                 <Box textAlign="center" fontSize={{base: "17px", md: "20px"}}>
                     Please be aware: this app is early in development and may have bugs. More features to come!
@@ -123,6 +136,9 @@ export default function Login() {
                         ?
                     </Button>
                 </Flex>
+                <Box onClick={() => createDummyUser()} _hover={{cursor: "pointer"}} textDecoration="underline">
+                    Don&apos;t have a Ronin wallet? Proceed to the app...
+                </Box>
                 <VStack
                     bg="black"
                     border="1px solid rgba(255,255,255,0.3)"

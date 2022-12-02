@@ -39,7 +39,6 @@ export default function Market() {
     })
 
     if (marketPlaceQuery.isLoading) {
-        console.log("LOADING MARKETPLACE")
         return <Waiting />
     } else if (marketPlaceQuery.isError) {
         console.log("ERROR LOADING MARKETPLACE")

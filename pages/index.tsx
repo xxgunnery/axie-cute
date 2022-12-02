@@ -8,9 +8,12 @@ export default function Home() {
 
     const session = useSession()
 
+    const [signInLater, setSignInLater] = React.useState(false)
+    const [dummyUser, setDummyUser] = React.useState('')
+
     return (
         <Layout>
-            {session.status === "authenticated" ? <App /> : <Login />}
+            {(session.status === "authenticated" || signInLater) ? <App signInLater={signInLater} dummyUser={dummyUser}/> : <Login setSignInLater={setSignInLater} setDummyUser={setDummyUser}/>}
         </Layout>
     )
 }

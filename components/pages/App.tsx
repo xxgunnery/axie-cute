@@ -10,7 +10,7 @@ import { fetchAllAxies } from '../../scripts/graphql/graphql'
 import { useSession } from 'next-auth/react'
 import Head from 'next/head'
 
-export default function App() {
+export default function App({ signInLater, dummyUser }: { signInLater: boolean, dummyUser: string }) {
 
     const [imagesLoaded, setImagesLoaded] = React.useState<boolean>(true)
     const [axieNum, setAxieNum] = React.useState<number>(0)
@@ -20,6 +20,9 @@ export default function App() {
     async function getFeedAxies() {
         if (session) {
             const data = await axios.get("api/getFeedAxies?address=" + session.user.address)
+            return data
+        } else if (signInLater) {
+            const data = await axios.get("api/getFeedAxies?address=" + dummyUser)
             return data
         }
     }
@@ -47,11 +50,14 @@ export default function App() {
         refetchOnWindowFocus: false,
         refetchOnMount: false,
         refetchOnReconnect: false,
+        enabled: typeof(session) !== null && !signInLater,
     })
 
     let userAxies: any = false
-    if (!userAxieQuery.isLoading && !userAxieQuery.isError) {
-        userAxies = userAxieQuery.data.data.part1.results
+    if(!signInLater) {
+        if (!userAxieQuery.isLoading && !userAxieQuery.isError) {
+            userAxies = userAxieQuery.data.data.part1.results
+        }
     }
 
     const storeAxiesQuery = useQuery(['axieStorage'], () => session && storeAxies(userAxies), {
@@ -66,7 +72,7 @@ export default function App() {
         refetchOnWindowFocus: false,
         refetchOnMount: false,
         refetchOnReconnect: false,
-        enabled: !storeAxiesQuery.isLoading
+        enabled: !storeAxiesQuery.isLoading || signInLater
     })
 
     if (axieQuery.isLoading) {
@@ -130,6 +136,7 @@ export default function App() {
                             setAxieNum={setAxieNum}
                             axies={axies}
                             refetchAxies={refetch}
+                            dummyUser={dummyUser}
                         />
                         <Button
                             mt="10px!important"
