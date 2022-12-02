@@ -61,7 +61,7 @@ export default function Login({ setSignInLater, setDummyUser }: { setSignInLater
             justifyContent="center"
             fontSize="15px"
         >
-            <Image src="/images/axies/axie-9298317.png" w={{base: "250px", md: "300px"}} mt="20px" />
+            <Image src="/images/axies/axie-9298317.png" w={{base: "240px", md: "270px"}} mt="20px" />
             <Box
                 bg="gray.700"
                 p="5px"
@@ -88,16 +88,16 @@ export default function Login({ setSignInLater, setDummyUser }: { setSignInLater
                 borderRadius="10px"
                 rowGap="10px"
                 border="1px solid rgba(255,255,255,0.5)"
-                p="20px"
+                p="10px"
                 w={{ base: "90%", md: "auto" }}
             >
-                <Heading textAlign="center">
+                <Heading textAlign="center" mt="0px!important">
                     Welcome to Axie-Cute!
                 </Heading>
-                <Box textAlign="center" fontSize={{ base: "17px", md: "20px" }}>
+                <Box textAlign="center" fontSize={{ base: "17px", md: "20px" }} mt="0px!important">
                     Ready to browse some adorable axies? You can add your axies to the Axie-Cute ecosystem by signing in with Ronin!
                 </Box>
-                <Box textAlign="center" fontSize={{ base: "17px", md: "20px" }}>
+                <Box textAlign="center" fontSize={{ base: "17px", md: "20px" }} mt="0px!important">
                     Please be aware: this app is early in development and may have bugs. More features to come!
                 </Box>
                 <Flex
@@ -105,14 +105,17 @@ export default function Login({ setSignInLater, setDummyUser }: { setSignInLater
                     justifyContent="center"
                     columnGap="10px"
                     bg="gray.700"
+                    _hover={{
+                        bg: "gray.600"
+                    }}
                     p='10px'
                     w={{ base: "98%", md: "auto" }}
                     borderRadius="5px"
                 >
                     <Button
-                        bg="gray.700"
+                        bg="none"
                         _hover={{
-                            bg: "gray.600"
+                            bg: "none"
                         }}
                         disabled={isLoggingIn}
                         onClick={() => connectToRonin()}
@@ -126,6 +129,7 @@ export default function Login({ setSignInLater, setDummyUser }: { setSignInLater
                         border="1px solid rgba(255,255,255,0.3)"
                         borderRadius="50%"
                         p="0px!important"
+                        mt="0px!important"
                         fontSize="30px"
                         h="40px"
                         minW="40px!important"
@@ -134,7 +138,7 @@ export default function Login({ setSignInLater, setDummyUser }: { setSignInLater
                         ?
                     </Button>
                 </Flex>
-                <Box onClick={() => createDummyUser()} _hover={{ cursor: "pointer" }} textDecoration="underline">
+                <Box onClick={() => createDummyUser()} _hover={{ cursor: "pointer" }} textDecoration="underline"  mt="0px!important">
                     Don&apos;t have a Ronin wallet? Proceed to the app...
                 </Box>
                 <VStack
