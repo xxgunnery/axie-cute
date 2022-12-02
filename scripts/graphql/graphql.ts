@@ -184,7 +184,6 @@ export async function fetchAllAxies(userAddress: string) {
             payload: payload,
         })
         var allAxiesArray = await PartArrayMerger([data])
-        console.log(allAxiesArray)
         return allAxiesArray
     } catch (err) {
         console.log(err)
