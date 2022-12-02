@@ -37,7 +37,6 @@ export async function fetchAllAxies(userAddress: string) {
         variables: {
             owner: userAddress,
             sort: "IdAsc",
-            auctionType: "Sale"
         },
     })
     try {
