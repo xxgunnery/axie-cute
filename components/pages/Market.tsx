@@ -56,8 +56,8 @@ export default function Market() {
             </Head>
             <VStack
                 mt="5px"
-                h="98vh"
                 w="100%"
+                h="98vh"
                 alignItems="center"
                 justifyContent="space-between"
             >
@@ -85,6 +85,7 @@ export default function Market() {
                 </Flex>
                 <VStack
                     w="100%"
+                    h="95vh"
                     columnGap="10px"
                     rowGap="10px"
                     overflowY="scroll"
