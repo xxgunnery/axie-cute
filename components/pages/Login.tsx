@@ -1,9 +1,7 @@
 import React from 'react'
-import { Box, Button, Flex, Heading, Image, Link, ListItem, Tooltip, UnorderedList, VStack } from "@chakra-ui/react";
+import { Box, Button, Flex, Heading, Image, Link, ListItem, UnorderedList, VStack } from "@chakra-ui/react";
 import axios from 'axios'
-import { ethers, providers } from 'ethers'
-import WalletConnectProvider from "@walletconnect/web3-provider"
-import { signIn, SignInOptions } from 'next-auth/react';
+import { signIn } from 'next-auth/react';
 
 export default function Login({ setSignInLater, setDummyUser }: { setSignInLater: (value: boolean) => void, setDummyUser: (value: string) => void }) {
 
@@ -47,7 +45,7 @@ export default function Login({ setSignInLater, setDummyUser }: { setSignInLater
         setSignInLater(true)
         setIsLoggingIn(true)
         const dummyUser = await axios.get("/api/auth/createDummyUser").then((result) => result.data)
-        if(!dummyUser) {
+        if (!dummyUser) {
             setIsLoggingIn(false)
             return
         } else {
@@ -58,19 +56,19 @@ export default function Login({ setSignInLater, setDummyUser }: { setSignInLater
 
     return (
         <VStack
-            minH="100%"
+            minH="90vh"
             alignItems="center"
             justifyContent="center"
             fontSize="15px"
         >
-            <Image src="/images/axies/axie-9298317.png" w="300px" mt="20px"/>
+            <Image src="/images/axies/axie-9298317.png" w={{base: "250px", md: "300px"}} mt="20px" />
             <Box
                 bg="gray.700"
                 p="5px"
                 mb="30px"
                 borderRadius="5px"
                 textAlign="center"
-                w={{ base: "380px", md: "600px" }}
+                w={{ base: "95%", md: "600px" }}
             >
                 Have feedback for Axie-Cute? Please visit <Link href="https://twitter.com/xxgunnery">XxGunnery&apos;s Twitter</Link> and comment on a post. We can create a Discord if it&apos;s in demand!
             </Box>
@@ -80,7 +78,7 @@ export default function Login({ setSignInLater, setDummyUser }: { setSignInLater
                 mb="30px"
                 borderRadius="5px"
                 textAlign="center"
-                w={{ base: "380px", md: "600px" }}
+                w={{ base: "95%", md: "600px" }}
             >
                 MOBILE USERS - According to my limited testing, SSO is currently not working on many devices. Please use a desktop or laptop if mobile sign on does not work.
             </Box>
@@ -96,10 +94,10 @@ export default function Login({ setSignInLater, setDummyUser }: { setSignInLater
                 <Heading textAlign="center">
                     Welcome to Axie-Cute!
                 </Heading>
-                <Box textAlign="center" fontSize={{base: "17px", md: "20px"}}>
+                <Box textAlign="center" fontSize={{ base: "17px", md: "20px" }}>
                     Ready to browse some adorable axies? You can add your axies to the Axie-Cute ecosystem by signing in with Ronin!
                 </Box>
-                <Box textAlign="center" fontSize={{base: "17px", md: "20px"}}>
+                <Box textAlign="center" fontSize={{ base: "17px", md: "20px" }}>
                     Please be aware: this app is early in development and may have bugs. More features to come!
                 </Box>
                 <Flex
@@ -136,7 +134,7 @@ export default function Login({ setSignInLater, setDummyUser }: { setSignInLater
                         ?
                     </Button>
                 </Flex>
-                <Box onClick={() => createDummyUser()} _hover={{cursor: "pointer"}} textDecoration="underline">
+                <Box onClick={() => createDummyUser()} _hover={{ cursor: "pointer" }} textDecoration="underline">
                     Don&apos;t have a Ronin wallet? Proceed to the app...
                 </Box>
                 <VStack

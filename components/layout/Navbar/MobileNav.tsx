@@ -3,6 +3,7 @@ import { Flex, Button, VStack, Heading, useColorModeValue, Link, Image, Box, Too
 import { useRouter } from "next/router"
 import { signOut, useSession } from "next-auth/react"
 import { sliceRoninAddress } from "../../../scripts/utils/utils"
+import Socials from "./Socials"
 
 type Props = {
     connectToRonin: () => Promise<void>
@@ -86,36 +87,7 @@ export default function MobileNav({ connectToRonin }: Props) {
                         </Button>
                     </Flex>
                 </VStack>
-                <Flex w="100%" alignItems="center" justifyContent="center">
-                    <Flex
-                        bg="gray.800"
-                        borderRadius="5px"
-                        p="10px"
-                        columnGap="10px"
-                        alignItems="center"
-                        justifyContent="center"
-                    >
-                        <Image src="/images/profile.png" w="60px" h="60px" />
-                        <Flex
-                            alignItems="center"
-                            justifyContent="center"
-                            columnGap="20px"
-                            bg="gray.700"
-                            border="rgba(255,255,255,0.1) 1px solid"
-                            p="10px"
-                            borderRadius="5px"
-                        >
-                            <Link href="twitter.com/xxgunnery" h="40px" display="flex" alignItems="center" _hover={{ transform: "translateY(-3px)" }}>
-                                <Image src="/images/twitter.png" w="40px" />
-                            </Link>
-                            <Tooltip label="Did you know Axie-Cute is open source??" placement="top" textShadow="none" borderRadius="5px" bg="gray.100">
-                                <Link href="twitter.com/xxgunnery" h="40px" display="flex" alignItems="center" _hover={{ transform: "translateY(-3px)" }}>
-                                    <Image src="/images/github.png" w="40px" />
-                                </Link>
-                            </Tooltip>
-                        </Flex>
-                    </Flex>
-                </Flex>
+                <Socials />
                 <VStack alignItems="center" columnGap="20px" p="10px" borderTop="1px solid rgba(255,255,255,0.2)" w="100%">
 
                     <Flex

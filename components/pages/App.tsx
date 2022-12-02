@@ -56,7 +56,6 @@ export default function App({ signInLater, dummyUser }: { signInLater: boolean, 
     let userAxies: any = false
     if(!signInLater) {
         if (!userAxieQuery.isLoading && !userAxieQuery.isError) {
-            console.log("USER AXIES", userAxieQuery)
             userAxies = userAxieQuery.data.data.part1.results
         }
     }
