@@ -25,10 +25,23 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 }
             }
         }
-        const axiesList = await prisma.axie.findMany({ where: queryWhere, orderBy: queryOrder, take: 20 })
-        if (axiesList) {
-            res.status(200).json({ axiesList })
+        let numToSkip = 0
+        if (typeof req.query.page === 'string') {
+            numToSkip = parseInt(req.query.page) * 20 - 20
         }
+        let numToTake = 20
+        if (typeof req.query.perPage === 'string') {
+            numToTake = parseInt(req.query.perPage)
+        }
+
+        const axiesList = await prisma.axie.findMany({ where: queryWhere, orderBy: queryOrder, take: numToTake, skip: numToSkip })
+
+        const numAxies = await prisma.axie.count({ where: queryWhere })
+
+        if (axiesList) {
+            res.status(200).json({ axiesList, numAxies })
+        }
+
     } catch (error) {
         if (error instanceof Prisma.PrismaClientKnownRequestError) {
             if (error.code === "P2002") {

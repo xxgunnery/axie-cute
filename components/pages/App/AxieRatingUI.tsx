@@ -4,13 +4,31 @@ import axios from 'axios'
 import styles from './axierating.module.css'
 import AxieRating from './AxieRatingUI/AxieRating'
 import { useSession } from 'next-auth/react'
+import { Axie } from '@prisma/client'
 
-export default function AxieRatingUI({ axieNum, setAxieNum, axieQuery }: any) {
+type Props = {
+    axieNum: number
+    setAxieNum: React.Dispatch<React.SetStateAction<number>>
+    axies: Axie[]
+    refetchAxies: () => void
+}
+
+export type AxieRatingType = {
+    cute: number
+    cool: number
+}
+
+export type XYCoordinates = {
+    x: number
+    y: number
+}
+
+export default function AxieRatingUI({ axieNum, setAxieNum, axies, refetchAxies }: Props) {
 
     const { data: session, status } = useSession()
 
     // THIS COMPONENT LEVEL STATE
-    const [axieRating, setAxieRating] = React.useState({ cute: 5, cool: 5 })
+    const [axieRating, setAxieRating] = React.useState<AxieRatingType>({ cute: 5, cool: 5 })
     const [isButtonDisabled, setIsButtonDisabled] = React.useState<boolean>(false)
 
     // LOWER LEVEL STATE
@@ -18,20 +36,18 @@ export default function AxieRatingUI({ axieNum, setAxieNum, axieQuery }: any) {
     const [origin, setOrigin] = React.useState({ x: 0, y: 0 })
     const [translation, setTranslation] = React.useState({ x: 0, y: 0 })
 
-    const axies = axieQuery.data.data
-
-    async function submitRating(axieQuery: any) {
-        setIsButtonDisabled(false)
+    async function submitRating(axies: Axie[], refetch: () => void) {
+        setIsButtonDisabled(true)
 
         if (session) {
             await axios.post("api/submitAxieRating", { rating: axieRating, axieId: axies[axieNum].axieId, voter: session.user.address })
         }
 
-        if (axieNum === axieQuery.data.data.length - 1) {
+        if (axieNum === axies.length - 1) {
             setAxieRating({ cute: 5, cool: 5 })
             setTranslation({ x: 0, y: 0 })
             setIsMoved(false)
-            axieQuery.refetch()
+            refetch()
             setAxieNum(0)
         } else {
             setAxieNum((prev: number) => prev + 1)
@@ -92,7 +108,8 @@ export default function AxieRatingUI({ axieNum, setAxieNum, axieQuery }: any) {
                         setOrigin={setOrigin}
                         translation={translation}
                         setTranslation={setTranslation}
-                        axieQuery={axieQuery}
+                        axies={axies}
+
                     />
                 </Flex>
                 <Flex
@@ -119,7 +136,7 @@ export default function AxieRatingUI({ axieNum, setAxieNum, axieQuery }: any) {
                     userSelect="none"
                     borderColor="gray.300"
                     fontSize="20px"
-                    onClick={() => submitRating(axieQuery)}
+                    onClick={() => submitRating(axies, refetchAxies)}
                     disabled={isButtonDisabled}
                 >
                     <VStack

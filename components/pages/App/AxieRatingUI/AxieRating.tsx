@@ -2,19 +2,23 @@ import React from 'react'
 import { Box, Flex, Image, VStack } from '@chakra-ui/react'
 import { getV3AxieImage } from '../../../../scripts/utils/utils'
 import styles from '../axierating.module.css'
+import { AxieRatingType, XYCoordinates } from '../AxieRatingUI'
+import { Axie } from '@prisma/client'
 
-export default function AxieRating({
-    axieNum,
-    axieRating,
-    setAxieRating,
-    axieQuery,
-    isMoved,
-    setIsMoved,
-    translation,
-    setTranslation,
-    origin,
-    setOrigin
-}: any) {
+type Props = {
+    axieNum: number
+    axieRating: AxieRatingType
+    setAxieRating: React.Dispatch<React.SetStateAction<AxieRatingType>>
+    axies: Axie[]
+    isMoved: boolean
+    setIsMoved: React.Dispatch<React.SetStateAction<boolean>>
+    translation: XYCoordinates
+    setTranslation: React.Dispatch<React.SetStateAction<XYCoordinates>>
+    origin: XYCoordinates
+    setOrigin: React.Dispatch<React.SetStateAction<XYCoordinates>>
+}
+
+export default function AxieRating({ axieNum, axieRating, setAxieRating, axies, isMoved, setIsMoved, translation, setTranslation, origin, setOrigin }: Props) {
 
     React.useEffect(() => {
         window.addEventListener('pointerup', () => setIsDragging(false));
@@ -102,7 +106,7 @@ export default function AxieRating({
             if (cuteRating > 9.7) cuteRating = 10
             if (coolRating < 0.3) coolRating = 0
             if (cuteRating < 0.3) cuteRating = 0
-            
+
             setAxieRating({ cute: cuteRating, cool: coolRating })
         }
     }
@@ -121,8 +125,6 @@ export default function AxieRating({
             setAxieRating({ cute: cuteRating, cool: coolRating })
         }
     }
-
-    const axies = axieQuery.data.data
 
     return (
 

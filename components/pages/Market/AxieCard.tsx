@@ -1,8 +1,5 @@
 import React from 'react'
 import { Box, Flex, Image, Link, Tooltip, VStack } from '@chakra-ui/react'
-// import { useQuery } from '@tanstack/react-query'
-// import axios from 'axios'
-// import Waiting from '../../common-components/Waiting'
 import { getClassColor, getLinearGradient, getV3AxieImage } from '../../../scripts/utils/utils'
 
 interface Props {
@@ -70,7 +67,7 @@ export default function AxieCard({ axie, key, imagesLoaded, setImagesLoaded }: P
                 <Tooltip label={"Cute score (out of 10): " + axie.axieCuteScore} borderRadius="5px" textShadow="none">
                     <VStack position="relative" w="100%" alignItems="flex-start">
                         <Box position="absolute">
-                            {axie.axieCuteScore}
+                            {axie.axieCuteScore.toFixed(1)}
                         </Box>
                         <Box ml="30px!important" bg="rgba(255,255,255,0.2)" w="calc(85%)" h="10px" borderRadius="5px" position="absolute" zIndex="-1" />
                         <Box ml="30px!important" bg="red.500" w={(axie.axieCuteScore / 10 * 100) - 15 + "%"} h="10px" borderRadius="5px" />
@@ -79,7 +76,7 @@ export default function AxieCard({ axie, key, imagesLoaded, setImagesLoaded }: P
                 <Tooltip label={"Cool score (out of 10): " + axie.axieCoolScore} borderRadius="5px" textShadow="none">
                     <VStack position="relative" w="100%" alignItems="flex-start">
                         <Box position="absolute">
-                            {axie.axieCoolScore}
+                            {axie.axieCoolScore.toFixed(1)}
                         </Box>
                         <Box ml="30px!important" bg="rgba(255,255,255,0.2)" w="calc(85%)" h="10px" borderRadius="5px" position="absolute" zIndex="-1" />
                         <Box ml="30px!important" bg="blue.500" w={(axie.axieCoolScore / 10 * 100) - 10 + "%"} h="10px" borderRadius="5px" />
