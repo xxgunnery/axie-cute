@@ -50,7 +50,7 @@ export default function Login() {
             justifyContent="center"
             fontSize="15px"
         >
-            <Image src="/images/axies/axie-9298317.png" w="300px" />
+            <Image src="/images/axies/axie-9298317.png" w="300px" mt="20px"/>
             <Box
                 bg="gray.700"
                 p="5px"
