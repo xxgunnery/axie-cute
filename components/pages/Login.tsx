@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box, Button, Flex, Heading, Image, ListItem, UnorderedList, VStack } from "@chakra-ui/react";
+import { Box, Button, Flex, Heading, Image, Link, ListItem, Tooltip, UnorderedList, VStack } from "@chakra-ui/react";
 import axios from 'axios'
 import { ethers, providers } from 'ethers'
 import WalletConnectProvider from "@walletconnect/web3-provider"
@@ -48,12 +48,34 @@ export default function Login() {
             minH="100%"
             alignItems="center"
             justifyContent="center"
+            fontSize="15px"
         >
             <Image src="/images/axies/axie-9298317.png" w="300px" />
+            <Box
+                bg="gray.700"
+                p="5px"
+                mb="30px"
+                borderRadius="5px"
+                textAlign="center"
+                w={{ base: "380px", md: "600px" }}
+            >
+                Have feedback for Axie-Cute? Please visit <Link href="https://twitter.com/xxgunnery">XxGunnery&apos;s Twitter</Link> and comment on a post. We can create a Discord if it&apos;s in demand!
+            </Box>
+            <Box
+                bg="red.700"
+                p="5px"
+                mb="30px"
+                borderRadius="5px"
+                textAlign="center"
+                w={{ base: "380px", md: "600px" }}
+            >
+                MOBILE USERS - According to my limited testing, SSO is currently not working on many devices. Please use a desktop or laptop if mobile sign on does not work.
+            </Box>
             <VStack
                 justifyContent="center"
                 bg="gray.900"
                 borderRadius="10px"
+                rowGap="10px"
                 border="1px solid rgba(255,255,255,0.5)"
                 p="20px"
                 w={{ base: "90%", md: "auto" }}
@@ -61,11 +83,31 @@ export default function Login() {
                 <Heading textAlign="center">
                     Welcome to Axie-Cute!
                 </Heading>
-                <Box textAlign="center">
+                <Box textAlign="center" fontSize={{base: "17px", md: "20px"}}>
                     Ready to browse some adorable axies? Get started by signing in!
                 </Box>
-                <VStack alignItems="center">
-                    <Button disabled={isLoggingIn} onClick={() => connectToRonin()}>
+                <Box textAlign="center" fontSize={{base: "17px", md: "20px"}}>
+                    Please be aware: this app is early in development and may have bugs. More features to come!
+                </Box>
+                <Flex
+                    alignItems="center"
+                    justifyContent="center"
+                    columnGap="10px"
+                    bg="gray.700"
+                    p='10px'
+                    w={{ base: "98%", md: "auto" }}
+                    borderRadius="5px"
+                >
+                    <Button
+                        bg="gray.700"
+                        _hover={{
+                            bg: "gray.600"
+                        }}
+                        disabled={isLoggingIn}
+                        onClick={() => connectToRonin()}
+                        h="auto"
+                        fontSize="25px"
+                    >
                         Sign In Using AxieDAO SSO!
                     </Button>
                     <Button
@@ -80,7 +122,7 @@ export default function Login() {
                     >
                         ?
                     </Button>
-                </VStack>
+                </Flex>
                 <VStack
                     bg="black"
                     border="1px solid rgba(255,255,255,0.3)"

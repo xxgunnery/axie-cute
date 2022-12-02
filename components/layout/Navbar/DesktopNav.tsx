@@ -1,4 +1,4 @@
-import { Flex, Button, VStack, Link, Box } from "@chakra-ui/react"
+import { Flex, Button, VStack, Link, Box, Tooltip } from "@chakra-ui/react"
 import { Image } from "@chakra-ui/react"
 import React from "react"
 import { useRouter } from "next/router"
@@ -52,43 +52,72 @@ export default function DesktopNav({ connectToRonin }: Props) {
                     </Button>
                 </Flex>
             </VStack>
-            <VStack alignItems="center" columnGap="20px" mb="0px!important" p="15px" borderTop="1px solid rgba(255,255,255,0.3)" w="100%">
+            <VStack>
                 <Flex
+                    bg="gray.800"
                     borderRadius="5px"
+                    p="10px"
+                    columnGap="10px"
                     alignItems="center"
-                    p="4px 8px 4px 8px"
-                    bg="brand.300"
-                    color="black"
                 >
-                    {
-                        session && (status === "authenticated")
-                            ?
-                            <>
-                                <Image src={"/images/ronin-logo.svg"} width="35px" height="35px" />
-                                <Box
-                                    _hover={{ cursor: "default!important" }}
-                                    bg="brand.50"
-                                    p="7px 10px 7px 10px"
-                                    borderRadius="2px"
-                                >
-                                    {`Connected (${sliceRoninAddress(session.user?.address)})`}
-                                </Box>
-                            </>
-                            :
-                            <>
-                                <Image src={"/images/ronin-logo.svg"} width="30px" height="30px" />
-                                <Button bg="none" fontSize="20px" fontWeight="700" onClick={() => connectToRonin()}>
-                                    Wallet Not Connected
-                                </Button>
-                            </>
-                    }
+                    <Image src="/images/profile.png" w="60px" h="60px" />
+                    <Flex
+                        alignItems="center"
+                        justifyContent="center"
+                        columnGap="20px"
+                        bg="gray.700"
+                        border="rgba(255,255,255,0.1) 1px solid"
+                        p="10px"
+                        borderRadius="5px"
+                    >
+                        <Link href="https://twitter.com/xxgunnery" h="40px" display="flex" alignItems="center" _hover={{ transform: "translateY(-3px)" }}>
+                            <Image src="/images/twitter.png" w="40px" />
+                        </Link>
+                        <Tooltip label="Did you know Axie-Cute is open source??" placement="top" textShadow="none" borderRadius="5px" bg="gray.100">
+                            <Link href="https://github.com/xxgunnery/axie-cute" h="40px" display="flex" alignItems="center" _hover={{ transform: "translateY(-3px)" }}>
+                                <Image src="/images/github.png" w="40px" />
+                            </Link>
+                        </Tooltip>
+                    </Flex>
                 </Flex>
-                {
-                    session && (status === "authenticated") &&
-                    <Button onClick={() => signOut()} borderRadius="5px" bg="gray.600">
-                        Disconnect
-                    </Button>
-                }
+                <VStack alignItems="center" columnGap="20px" mb="0px!important" p="15px" borderTop="1px solid rgba(255,255,255,0.3)" w="100%">
+                    <Flex
+                        borderRadius="5px"
+                        alignItems="center"
+                        p="4px 8px 4px 8px"
+                        bg="brand.300"
+                        color="black"
+                    >
+                        {
+                            session && (status === "authenticated")
+                                ?
+                                <>
+                                    <Image src={"/images/ronin-logo.svg"} width="35px" height="35px" />
+                                    <Box
+                                        _hover={{ cursor: "default!important" }}
+                                        bg="brand.50"
+                                        p="7px 10px 7px 10px"
+                                        borderRadius="2px"
+                                    >
+                                        {`Connected (${sliceRoninAddress(session.user?.address)})`}
+                                    </Box>
+                                </>
+                                :
+                                <>
+                                    <Image src={"/images/ronin-logo.svg"} width="30px" height="30px" />
+                                    <Button bg="none" fontSize="20px" fontWeight="700" onClick={() => connectToRonin()}>
+                                        Connect Wallet
+                                    </Button>
+                                </>
+                        }
+                    </Flex>
+                    {
+                        session && (status === "authenticated") &&
+                        <Button onClick={() => signOut()} borderRadius="5px" bg="gray.600">
+                            Disconnect
+                        </Button>
+                    }
+                </VStack>
             </VStack>
         </VStack>
     )
