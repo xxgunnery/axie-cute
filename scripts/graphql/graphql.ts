@@ -170,12 +170,12 @@ fragment AxieBrief on Axie {
 `
 
 export async function fetchAllAxies(userAddress: string) {
-    const userAddress2 = "0xc45e86d1c3d4192ce2f0fb190de8dfac6f007be3"
+    //const userAddress2 = "0xc45e86d1c3d4192ce2f0fb190de8dfac6f007be3"
     const payload = JSON.stringify({
         operation: "GetAxieBriefList",
         query: axieSchema,
         variables: {
-            owner: userAddress2,
+            owner: userAddress,
             sort: "IdAsc",
         },
     })

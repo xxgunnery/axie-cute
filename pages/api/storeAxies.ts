@@ -16,7 +16,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                     name: axie.name,
                 })
             }
-            console.log(prismaAxies.length)
             const createMany = await prisma.axie.createMany({ data: prismaAxies, skipDuplicates: true })
             if (prismaAxies) {
                 res.status(200).json(createMany)
