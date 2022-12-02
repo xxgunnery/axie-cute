@@ -57,7 +57,7 @@ export default function Market() {
             <VStack
                 mt="5px"
                 w="100%"
-                h="98vh"
+                h={{base: "85vh", md: "98vh"}}
                 alignItems="center"
                 justifyContent="space-between"
             >
@@ -85,7 +85,6 @@ export default function Market() {
                 </Flex>
                 <VStack
                     w="100%"
-                    h="95vh"
                     columnGap="10px"
                     rowGap="10px"
                     overflowY="scroll"
