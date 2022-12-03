@@ -86,6 +86,20 @@ export default function MobileNav({ connectToRonin }: Props) {
                             </Link>
                         </Button>
                     </Flex>
+                    {
+                        (session && session.user.role === "ADMIN") &&
+                        <Flex w="100%">
+                            <Button
+                                fontSize="20px!important"
+                                w="100%"
+                                variant={currentPage === "admin" ? `navLinkCurrent` : `navLink`}
+                            >
+                                <Link href={"/admin"} _hover={{ textDecoration: "none" }}>
+                                    🏛️ Admin
+                                </Link>
+                            </Button>
+                        </Flex>
+                    }
                 </VStack>
                 <Socials />
                 <VStack alignItems="center" columnGap="20px" p="10px" borderTop="1px solid rgba(255,255,255,0.2)" w="100%">

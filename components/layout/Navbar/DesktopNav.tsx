@@ -52,6 +52,20 @@ export default function DesktopNav({ connectToRonin }: Props) {
                         </Link>
                     </Button>
                 </Flex>
+                {
+                    (session && session.user.role === "ADMIN") &&
+                    <Flex w="100%">
+                        <Button
+                            fontSize="20px!important"
+                            w="100%"
+                            variant={currentPage === "admin" ? `navLinkCurrent` : `navLink`}
+                        >
+                            <Link href={"/admin"} _hover={{ textDecoration: "none" }}>
+                                🏛️ Admin
+                            </Link>
+                        </Button>
+                    </Flex>
+                }
             </VStack>
             <VStack>
                 <Socials />
