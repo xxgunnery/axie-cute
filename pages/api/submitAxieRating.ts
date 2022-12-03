@@ -17,7 +17,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             if (axieFromDB) {
 
                 const cuteRatingTotal = parseFloat(axieRating.rating.cute + axieFromDB.cuteRatingTotal)
-                const coolRatingTotal = parseFloat(axieRating.rating.cool + axieFromDB.cuteRatingTotal)
+                const coolRatingTotal = parseFloat(axieRating.rating.cool + axieFromDB.coolRatingTotal)
                 const impressions = axieFromDB.impressions + 1
                 const axieCuteScore = cuteRatingTotal / impressions
                 const axieCoolScore = coolRatingTotal / impressions

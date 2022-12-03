@@ -19,6 +19,13 @@ model User {
     role           Role      @default(USER)
 }
 
+model DummyUser {
+    id             Int       @id @default(autoincrement())
+    address        String    @unique
+    createdAt      DateTime  @default(now())
+    role           Role      @default(USER)
+}
+
 model Axie {
     id              Int      @id @default(autoincrement())
     axieId          String   @unique

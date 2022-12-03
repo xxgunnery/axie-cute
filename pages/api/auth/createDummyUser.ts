@@ -7,13 +7,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         const createdDummyUser = false
         while(!createdDummyUser) {
             const randomString = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15)
-            const existingUser = await prisma.user.findUnique({
+            const existingUser = await prisma.dummyUser.findUnique({
                 where: {
                     address: randomString
                 }
             })
             if (!existingUser) {
-                const createDummyUser = await prisma.user.create({ data: { address: randomString } })
+                const createDummyUser = await prisma.dummyUser.create({ data: { address: randomString } })
                 if (createDummyUser) {
                     return res.status(200).json({ message: "Dummy user created", address: createDummyUser.address })
                 }
