@@ -20,10 +20,10 @@ model User {
 }
 
 model DummyUser {
-    id             Int       @id @default(autoincrement())
-    address        String    @unique
-    createdAt      DateTime  @default(now())
-    role           Role      @default(USER)
+    id        Int      @id @default(autoincrement())
+    address   String   @unique
+    createdAt DateTime @default(now())
+    role      Role     @default(USER)
 }
 
 model Axie {
@@ -36,19 +36,21 @@ model Axie {
     updatedAt       DateTime @updatedAt
     cuteRatingTotal Float    @default(0)
     coolRatingTotal Float    @default(0)
+    cuteImpressions Int      @default(0)
+    coolImpressions Int      @default(0)
     impressions     Int      @default(0)
     axieCuteScore   Float    @default(0)
     axieCoolScore   Float    @default(0)
 }
 
 model Vote {
-    id         Int      @id @default(autoincrement())
-    axieId     String
-    voter      String
-    createdAt  DateTime @default(now())
-    updatedAt  DateTime @updatedAt
-    cuteRating Float
-    coolRating Float
+    id        Int       @id @default(autoincrement())
+    axieId    String
+    voter     String
+    createdAt DateTime  @default(now())
+    updatedAt DateTime  @updatedAt
+    rating    Float
+    ratingFor RatingFor
 }
 
 model Nonce {
@@ -62,4 +64,9 @@ model Nonce {
 enum Role {
     USER
     ADMIN
+}
+
+enum RatingFor {
+    cute
+    cool
 }

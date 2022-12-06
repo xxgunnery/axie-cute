@@ -1,6 +1,6 @@
 import React from 'react'
 import { Box, Button, Menu, MenuButton, MenuItem, MenuList, VStack } from '@chakra-ui/react'
-import { AxieFormData } from '../Market'
+import { AxieFormData } from '../../pages/Market'
 
 interface MenuProps {
     menuList: string[]
@@ -8,6 +8,25 @@ interface MenuProps {
     setFormData: React.Dispatch<React.SetStateAction<AxieFormData>>
     formData: { class: string, body: string }
 }
+
+/*
+<AxieRatingUI
+    axieNum={axieNum}
+    setAxieNum={setAxieNum}
+    axies={axies}
+    refetchAxies={refetch}
+    dummyUser={dummyUser}
+/>
+<Button
+    mt="10px!important"
+    p="8px 6px 8px 6px!important"
+    h="auto"
+    color="gold"
+    onClick={() => skipAxie()}
+>
+    Skip Axie
+</Button>
+*/
 
 export default function AxieMenuSelection({ menuList, menuName, formData, setFormData }: MenuProps) {
 

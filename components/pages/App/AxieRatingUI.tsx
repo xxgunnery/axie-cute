@@ -1,22 +1,21 @@
 import React from 'react'
 import { Box, Button, Flex, Image, VStack } from '@chakra-ui/react'
-import axios from 'axios'
+import axios, { AxiosResponse } from 'axios'
 import styles from './axierating.module.css'
-import AxieRating from './AxieRatingUI/AxieRating'
 import { useSession } from 'next-auth/react'
 import { Axie } from '@prisma/client'
+import { getV3AxieImage } from '../../../scripts/utils/utils'
+import { UseQueryResult } from '@tanstack/react-query'
 
 type Props = {
     axieNum: number
     setAxieNum: React.Dispatch<React.SetStateAction<number>>
     axies: Axie[]
-    refetchAxies: () => void
+    axieQuery: UseQueryResult<AxiosResponse<any, any> | undefined, unknown>
     dummyUser: string
-}
-
-export type AxieRatingType = {
-    cute: number
-    cool: number
+    imagesLoaded: boolean
+    setImagesLoaded: React.Dispatch<React.SetStateAction<boolean>>
+    ratingFor: string
 }
 
 export type XYCoordinates = {
@@ -24,56 +23,150 @@ export type XYCoordinates = {
     y: number
 }
 
-export default function AxieRatingUI({ axieNum, setAxieNum, axies, refetchAxies, dummyUser }: Props) {
+export default function AxieRatingUI({ axieNum, setAxieNum, axies, axieQuery, dummyUser, imagesLoaded, setImagesLoaded, ratingFor }: Props) {
 
-    const { data: session, status } = useSession()
+    React.useEffect(() => {
+        window.addEventListener('pointerup', () => setIsDragging(false));
 
-    // THIS COMPONENT LEVEL STATE
-    const [axieRating, setAxieRating] = React.useState<AxieRatingType>({ cute: 5, cool: 5 })
+        return () => {
+            window.removeEventListener('pointerup', () => setIsDragging(false));
+        }
+    }, [])
+
+    React.useEffect(() => {
+        setAxieNum(0)
+    }, [axies])
+
+    const { data: session } = useSession()
+
+    const [axieRating, setAxieRating] = React.useState<number>(5)
     const [isButtonDisabled, setIsButtonDisabled] = React.useState<boolean>(false)
 
-    // LOWER LEVEL STATE
+    const [isDragging, setIsDragging] = React.useState<boolean>(false)
     const [isMoved, setIsMoved] = React.useState<boolean>(false)
     const [origin, setOrigin] = React.useState({ x: 0, y: 0 })
     const [translation, setTranslation] = React.useState({ x: 0, y: 0 })
 
-    async function submitRating(axies: Axie[], refetch: () => void) {
+    async function submitRating(axies: Axie[], axieQuery: UseQueryResult) {
         setIsButtonDisabled(true)
 
         if (session) {
-            await axios.post("api/submitAxieRating", { rating: axieRating, axieId: axies[axieNum].axieId, voter: session.user.address })
+            await axios.post("api/submitAxieRating", { rating: axieRating, axieId: axies[axieNum].axieId, voter: session.user.address, ratingFor: ratingFor })
         } else if (dummyUser !== "") {
-            await axios.post("api/submitAxieRating", { rating: axieRating, axieId: axies[axieNum].axieId, voter: dummyUser })
+            await axios.post("api/submitAxieRating", { rating: axieRating, axieId: axies[axieNum].axieId, voter: dummyUser, ratingFor })
         } else {
             console.log("PROBLEM")
             throw new Error("There's a problem here!")
         }
 
         if (axieNum === axies.length - 1) {
-            setAxieRating({ cute: 5, cool: 5 })
+            setAxieRating(5)
             setTranslation({ x: 0, y: 0 })
             setIsMoved(false)
-            refetch()
-            setAxieNum(0)
+            axieQuery.refetch()
         } else {
             setAxieNum((prev: number) => prev + 1)
-            setAxieRating({ cute: 5, cool: 5 })
+            setAxieRating(5)
             setTranslation({ x: 0, y: 0 })
             setIsMoved(false)
         }
         setIsButtonDisabled(false)
     }
 
+    function normalizeRating(rating: number) {
+        return Math.round((((rating + 1) / 2) * 100)) / 10
+    }
+
+    function changeBorderColorWithAxieRating(axieRating: any) {
+        const ratingAmount = Math.round(axieRating.rating / 3 * 30)
+
+        const colors = `,hsl(0,${axieRating.rating * 10 + 20}%, 60%)`.repeat(ratingAmount)
+
+        return colors
+    }
+
+    function handlePointerDown(dropper: HTMLElement | null, target: HTMLElement, clientX: number, clientY: number) {
+        if (dropper && target) {
+            const dropperBounds = dropper.getBoundingClientRect()
+            if (isMoved) {
+                setIsDragging(true)
+
+                const x = clientX - origin.x
+                const y = clientY - origin.y
+                setTranslation({ x: x, y: y })
+
+                const targetRect = target.getBoundingClientRect()
+                let rating = x / (targetRect.width / 2)
+                rating = normalizeRating(rating)
+
+                setAxieRating(rating)
+            } else {
+                setIsDragging(true)
+
+                const originalPosition = {
+                    x: dropperBounds.left + (dropperBounds.width / 2),
+                    y: dropperBounds.top + (dropperBounds.height / 2)
+                }
+
+                const x = clientX - originalPosition.x
+                const y = clientY - originalPosition.y
+                setOrigin(originalPosition)
+                setTranslation({ x: x, y: y })
+                setIsMoved(true)
+
+                const targetRect = target.getBoundingClientRect()
+                let rating = x / (targetRect.width / 2)
+                rating = normalizeRating(rating)
+
+                if (rating > 9.7) rating = 10
+                if (rating < 0.3) rating = 0
+                setAxieRating(rating)
+            }
+        }
+
+    }
+
+    function handlePointerMove(target: HTMLElement, x: number, y: number) {
+        setTranslation({
+            x: x,
+            y: y
+        })
+
+        if (target) {
+            const targetRect = target.getBoundingClientRect()
+            let rating = x / (targetRect.width / 2)
+            rating = normalizeRating(rating)
+
+            if (rating > 9.7) rating = 10
+            if (rating < 0.3) rating = 0
+
+            setAxieRating(rating)
+        }
+    }
+
+    function handleTouchMove(target: HTMLElement, x: number, y: number) {
+        setTranslation({
+            x: x,
+            y: y
+        })
+        if (target) {
+            const targetRect = target.getBoundingClientRect()
+            let rating = x / (targetRect.width / 2)
+            rating = normalizeRating(rating)
+            setAxieRating(rating)
+        }
+    }
+
     function getRatingText(axieRating: number, coolOrCute: string) {
-        if (axieRating > 9) {
+        if (axieRating > 8.9) {
             return coolOrCute === 'cool' ? 'Incredibly Cool 😎💯' : 'Incredibly Cute 😍💯'
-        } else if (axieRating > 7.5) {
+        } else if (axieRating > 7.4) {
             return coolOrCute === 'cool' ? 'Very Cool 😎' : 'Very Cute 😍'
-        } else if (axieRating > 5) {
+        } else if (axieRating > 4.9) {
             return coolOrCute === 'cool' ? 'Cool 😄' : 'Cute 🥰'
-        } else if (axieRating > 2.5) {
+        } else if (axieRating > 2.4) {
             return coolOrCute === 'cool' ? 'A Little Cool 🤨' : 'A Little Cute 🤔'
-        } else if (axieRating > 1) {
+        } else if (axieRating > 0.9) {
             return coolOrCute === 'cool' ? 'Not So Cool 🤓' : 'Not So Cute 😑'
         } else {
             return coolOrCute === 'cool' ? 'Not Cool 😔' : 'Not Cute 🥴'
@@ -87,46 +180,87 @@ export default function AxieRatingUI({ axieNum, setAxieNum, axies, refetchAxies,
                     alignItems="center"
                     mr="35px"
                 >
-                    <Flex mr="5px">
-                        <Box
-                            className={styles.verticalText}
-                            textAlign="center"
-                            transform="rotate(180deg)"
-                            color="blue.500"
-                            fontWeight="800"
+                    <VStack>
+                        <VStack
+                            w="350px"
+                            h="350px"
+                            className={styles.axieRatingGrid}
+                            mt="0px!important"
+                            justifyContent="center"
+                            border="1px solid"
+                            background={`conic-gradient(from 0deg ${changeBorderColorWithAxieRating(axieRating)})`}
+                            borderRadius="25px"
+                            position="relative"
+                            onPointerDown={(e) => {
+                                const dropper = document.getElementById("ratingDropper")
+                                const target = e.target as HTMLElement
+                                handlePointerDown(dropper, target, e.clientX, e.clientY)
+                            }}
+                            onPointerUp={(e) => {
+                                setIsDragging(false)
+                                submitRating(axies, axieQuery)
+                            }}
+                            onPointerMove={(e) => {
+                                if (isDragging && e.pointerType === "mouse") {
+                                    const target = e.target as HTMLElement
+                                    const x = e.clientX - origin.x
+                                    const y = e.clientY - origin.y
+                                    handlePointerMove(target, x, y)
+                                }
+                            }}
+                            onTouchMove={(e) => {
+                                e.preventDefault()
+                                if (isDragging) {
+                                    const x = e.touches[0].clientX - origin.x
+                                    const y = e.touches[0].clientY - origin.y
+                                    const target = e.target as HTMLElement
+                                    handleTouchMove(target, x, y)
+                                }
+                            }}
                         >
-                            MORE COOL
-                            <Image
-                                alt="Left Hand Axis Arrow"
-                                transform="rotate(180deg)"
-                                h="270px"
-                                src="/images/arrow-up.png"
-                            />
-                        </Box>
-                    </Flex>
-                    <AxieRating
-                        axieNum={axieNum}
-                        axieRating={axieRating}
-                        setAxieRating={setAxieRating}
-                        isMoved={isMoved}
-                        setIsMoved={setIsMoved}
-                        origin={origin}
-                        setOrigin={setOrigin}
-                        translation={translation}
-                        setTranslation={setTranslation}
-                        axies={axies}
+                            <Box bg="gray.800" w="97%" h="97%" borderRadius="20px">
 
-                    />
-                </Flex>
-                <Flex
-                    flexDirection="column-reverse"
-                    alignItems="center"
-                    color="red.500"
-                    fontWeight="800"
-                    mt="5px"
-                >
-                    MORE CUTE
-                    <Image src="/images/arrow-right.png" w="270px" alt="Bottom Axis Arrow" />
+                            </Box>
+                            <Flex
+                                w="350px"
+                                h="350px"
+                                borderRadius="20px"
+                                border="7px solid"
+                                borderColor="rgba(255, 255, 255, 0.2)"
+                                alignItems="center"
+                                justifyContent="center"
+                                filter="brightness(1.8)"
+                                pointerEvents="none"
+                                position="absolute"
+                                userSelect="none"
+                                mt="0px!important"
+                                transform={`rotate(${(axieRating - 5) / 5 * 15}deg) translate(${translation.x}px, ${translation.y}px)`}
+                            >
+                                <Image
+                                    src={getV3AxieImage(axies[axieNum].axieId)}
+                                    minW="500px"
+                                    mt={axies[axieNum].bodyShape === "BigYak" ? "50px" : "20px"}
+                                    ml={axies[axieNum].bodyShape === "BigYak" ? "5px" : "3px"}
+                                    filter="brightness(0.7)"
+                                    opacity="0.8"
+                                    alt="Axie Cursor"
+                                    onLoad={() => !imagesLoaded && setImagesLoaded(true)}
+                                />
+                            </Flex>
+                            <Box
+                                id="ratingDropper"
+                                borderRadius="50%"
+                                w="100%"
+                                h="100%"
+                                position="absolute"
+                                zIndex="500!important"
+                                pointerEvents="none"
+                                transform={`translate(${translation.x}px, ${translation.y}px)`}
+                            >
+
+                            </Box>
+                        </VStack>
+                    </VStack>
                 </Flex>
             </VStack>
             <VStack mt="10px!important">
@@ -142,7 +276,7 @@ export default function AxieRatingUI({ axieNum, setAxieNum, axies, refetchAxies,
                     userSelect="none"
                     borderColor="gray.300"
                     fontSize="20px"
-                    onClick={() => submitRating(axies, refetchAxies)}
+                    onClick={() => submitRating(axies, axieQuery)}
                     disabled={isButtonDisabled}
                 >
                     <VStack
@@ -154,31 +288,15 @@ export default function AxieRatingUI({ axieNum, setAxieNum, axies, refetchAxies,
                         <Box
                             mt="0px!important"
                             fontSize="23px"
-                            color={`hsl(0,${axieRating.cute * 10 + 20}%, 60%)`}
+                            color={`hsl(0,${axieRating * 10 + 20}%, 60%)`}
                             fontWeight="800"
                             textAlign="center"
                         >
-                            {getRatingText(axieRating.cute, "cute")}
+                            {getRatingText(axieRating, ratingFor)}
                         </Box>
-                        <Box mt="0px!important" textAlign="center" color="gray.300">
-                            &
+                        <Box>
+                            {`${axieRating.toFixed(1)} / 10`}
                         </Box>
-                        <Box
-                            mt="0px!important"
-                            fontSize="23px"
-                            color={`hsl(209, ${axieRating.cool * 8 + 20}%, 60%)`}
-                            fontWeight="800"
-                            textAlign="center"
-                        >
-                            {getRatingText(axieRating.cool, "cool")}
-                        </Box>
-                        {
-                            isMoved &&
-                            <Box className={styles.flash} fontSize="13px" mt="5px!important">
-                                ( READY TO SUBMIT - CLICK HERE )
-                            </Box>
-                        }
-
                     </VStack>
                 </Button>
             </VStack>
