@@ -100,9 +100,19 @@
 }
 
 .changeBorder {
-    border-image: conic-gradient(from var(--angle),red,yellow,lime,aqua,blue,magenta,red) 1;
+    border-image: conic-gradient(from var(--angle), red, yellow, lime, aqua, blue, magenta, red) 1;
 }
 
-.axieRatingGrid {
+.removeTouch {
     touch-action: none;
+}
+
+.alert {
+    opacity: 1;
+    transition: all 150ms linear;
+}
+
+.alertOff {
+    opacity: 0;
+    transition: all 150ms linear .75s;
 }

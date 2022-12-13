@@ -8,7 +8,7 @@ import { fetchAllAxies } from '../../scripts/graphql/graphql'
 import { useSession } from 'next-auth/react'
 import Head from 'next/head'
 
-export default function App({ signInLater, dummyUser }: { signInLater: boolean, dummyUser: string }) {
+export default function App({ signInLater, dummyUser, isDesktop }: { signInLater: boolean, dummyUser: string, isDesktop: boolean }) {
 
     const [imagesLoaded, setImagesLoaded] = React.useState<boolean>(true)
     const [axieNum, setAxieNum] = React.useState<number>(0)
@@ -29,17 +29,6 @@ export default function App({ signInLater, dummyUser }: { signInLater: boolean, 
         if (session) {
             const storage = await axios.post("api/storeAxies", { axies: sampleAxies })
             console.log("UNIQUE AXIES SUCCESSFULLY STORED", storage.data)
-        }
-    }
-
-    function skipAxie() {
-        if (axieQuery.data) {
-            if (axieNum === axieQuery.data.data.length - 1) {
-                axieQuery.refetch()
-                setAxieNum(0)
-            } else {
-                setAxieNum(axieNum => axieNum + 1)
-            }
         }
     }
 
@@ -100,7 +89,8 @@ export default function App({ signInLater, dummyUser }: { signInLater: boolean, 
             </Head>
             <VStack
                 m="0px!important"
-                h="98vh"
+                h={isDesktop ? "98vh" : "calc(98vh - 95px)"}
+                position="relative"
                 overflowY="scroll"
             >
                 <VStack
@@ -116,7 +106,6 @@ export default function App({ signInLater, dummyUser }: { signInLater: boolean, 
                             dummyUser={dummyUser}
                             imagesLoaded={imagesLoaded}
                             setImagesLoaded={setImagesLoaded}
-                            ratingFor={"cute"}
                         />
                     </VStack >
                 </VStack>

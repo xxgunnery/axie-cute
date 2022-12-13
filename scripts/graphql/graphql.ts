@@ -169,6 +169,47 @@ fragment AxieBrief on Axie {
 }
 `
 
+const axieDetailSchema = `
+query GetAxieDetail($axieId: ID!) {
+    axie(axieId: $axieId) {
+        ...AxieBrief
+    }
+}
+
+fragment AxieBrief on Axie {
+    id
+    image
+    class
+    name
+    genes
+    owner
+    bodyShape
+    order {
+        currentPrice
+        currentPriceUsd
+    }
+}
+`
+
+export async function getAxieDetail(axieId: string) {
+    const payload = JSON.stringify({
+        operationName: "GetAxieDetail",
+        query: axieDetailSchema,
+        variables: {
+            axieId: axieId,
+        }
+    })
+    try {
+        const { data } = await axios.post("/api/graphql/graphql", {
+            payload: payload,
+        })
+        return data
+    } catch (err) {
+        console.log(err)
+        throw err
+    }
+}
+
 export async function fetchAllAxies(userAddress: string) {
     //const userAddress2 = "0xc45e86d1c3d4192ce2f0fb190de8dfac6f007be3"
     const payload = JSON.stringify({

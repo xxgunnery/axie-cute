@@ -64,8 +64,9 @@ const theme = extendTheme(
             global: (props: StyleFunctionProps) => ({
                 body: {
                     color: mode('gray.800', 'gray.200')(props),
-                    textShadow: mode('0 0.5px 0.5px rgba(0, 0, 0, 0.2)', '0 2px 4px rgba(0, 0, 0, 0.5)')(props),
+                    textShadow: mode('0 0.5px 0.5px rgba(0, 0, 0, 0.2)', '0 2px 4px rgba(0, 0, 0, 0.2)')(props),
                     bg: mode('gray.100', 'gray.800')(props),
+                    fontFamily: "Trebuchet MS"
                 }
             })
         },
