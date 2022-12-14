@@ -14,10 +14,6 @@ export default function Admin() {
         console.log(res)
     }
 
-    // async function normalizeAxieRatings() {
-    //     const res = await axios.post("/api/admin/normalizeAxieRatings")
-    //     console.log(res)
-    // }
 
     return (
         <VStack
@@ -26,9 +22,6 @@ export default function Admin() {
             justifyContent="center"
             fontSize="15px"
         >
-            {/* <Button onClick={() => normalizeAxieRatings()}>
-                Normalize Axies With Ratings
-            </Button> */}
             <Button onClick={() => deleteDummyUsers()}>
                 Delete DummyUsers From Users
             </Button>
