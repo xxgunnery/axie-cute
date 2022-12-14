@@ -47,3 +47,4 @@ next-env.d.ts
 /media
 /scripts/paul
 /pages/paul
+/pages/api/admin/normalizeAxieRatings.ts
